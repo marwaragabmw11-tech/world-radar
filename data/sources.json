@@ -1,0 +1,38 @@
+{
+  "_note": "Allowlist of public RSS/Atom feeds. Only these URLs are ever fetched. Publishers keep all rights: World Radar stores the headline, a short excerpt and the link only.",
+  "sources": [
+    { "id": "bbc-world", "name": "BBC News", "lang": "en", "url": "https://feeds.bbci.co.uk/news/world/rss.xml", "home": "https://www.bbc.com/news/world" },
+    { "id": "guardian-world", "name": "The Guardian", "lang": "en", "url": "https://www.theguardian.com/world/rss", "home": "https://www.theguardian.com/world" },
+    { "id": "aljazeera-en", "name": "Al Jazeera English", "lang": "en", "url": "https://www.aljazeera.com/xml/rss/all.xml", "home": "https://www.aljazeera.com" },
+    { "id": "npr-world", "name": "NPR", "lang": "en", "url": "https://feeds.npr.org/1004/rss.xml", "home": "https://www.npr.org/sections/world/" },
+
+    { "id": "bbc-arabic", "name": "BBC عربي", "lang": "ar", "url": "https://feeds.bbci.co.uk/arabic/rss.xml", "home": "https://www.bbc.com/arabic" },
+    { "id": "dw-arabic", "name": "DW عربية", "lang": "ar", "url": "https://rss.dw.com/rdf/rss-ar-all", "home": "https://www.dw.com/ar" },
+    { "id": "france24-ar", "name": "فرانس 24", "lang": "ar", "url": "https://www.france24.com/ar/rss", "home": "https://www.france24.com/ar/" },
+    { "id": "skynews-ar", "name": "سكاي نيوز عربية", "lang": "ar", "url": "https://www.skynewsarabia.com/rss/web/rss/world.xml", "home": "https://www.skynewsarabia.com" },
+
+    { "id": "ynet", "name": "ynet", "lang": "he", "url": "https://www.ynet.co.il/Integration/StoryRss2.xml", "home": "https://www.ynet.co.il" },
+    { "id": "kan-news", "name": "כאן חדשות", "lang": "he", "url": "https://www.kan.org.il/rss/", "home": "https://www.kan.org.il" },
+
+    { "id": "france24-fr", "name": "France 24", "lang": "fr", "url": "https://www.france24.com/fr/rss", "home": "https://www.france24.com/fr/" },
+    { "id": "lemonde-intl", "name": "Le Monde", "lang": "fr", "url": "https://www.lemonde.fr/international/rss_full.xml", "home": "https://www.lemonde.fr/international/" },
+    { "id": "rfi-fr", "name": "RFI", "lang": "fr", "url": "https://www.rfi.fr/fr/rss", "home": "https://www.rfi.fr/fr/" },
+
+    { "id": "bbc-mundo", "name": "BBC Mundo", "lang": "es", "url": "https://feeds.bbci.co.uk/mundo/rss.xml", "home": "https://www.bbc.com/mundo" },
+    { "id": "france24-es", "name": "France 24 Español", "lang": "es", "url": "https://www.france24.com/es/rss", "home": "https://www.france24.com/es/" },
+    { "id": "dw-es", "name": "DW Español", "lang": "es", "url": "https://rss.dw.com/rdf/rss-sp-all", "home": "https://www.dw.com/es" },
+
+    { "id": "tagesschau", "name": "tagesschau", "lang": "de", "url": "https://www.tagesschau.de/xml/rss2/", "home": "https://www.tagesschau.de" },
+    { "id": "dw-de", "name": "DW Deutsch", "lang": "de", "url": "https://rss.dw.com/rdf/rss-de-all", "home": "https://www.dw.com/de" },
+    { "id": "spiegel", "name": "DER SPIEGEL", "lang": "de", "url": "https://www.spiegel.de/schlagzeilen/index.rss", "home": "https://www.spiegel.de" },
+
+    { "id": "bbc-brasil", "name": "BBC News Brasil", "lang": "pt", "url": "https://feeds.bbci.co.uk/portuguese/rss.xml", "home": "https://www.bbc.com/portuguese" },
+    { "id": "dw-br", "name": "DW Brasil", "lang": "pt", "url": "https://rss.dw.com/rdf/rss-br-all", "home": "https://www.dw.com/pt-br" },
+
+    { "id": "nhk", "name": "NHK", "lang": "ja", "url": "https://www3.nhk.or.jp/rss/news/cat0.xml", "home": "https://www3.nhk.or.jp/news/" },
+    { "id": "bbc-japanese", "name": "BBC News Japan", "lang": "ja", "url": "https://feeds.bbci.co.uk/japanese/rss.xml", "home": "https://www.bbc.com/japanese" },
+
+    { "id": "bbc-zhongwen", "name": "BBC 中文", "lang": "zh", "url": "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml", "home": "https://www.bbc.com/zhongwen/simp" },
+    { "id": "dw-zh", "name": "DW 中文", "lang": "zh", "url": "https://rss.dw.com/rdf/rss-chi-all", "home": "https://www.dw.com/zh" }
+  ]
+}

@@ -1,0 +1,68 @@
+name: Update news and deploy
+
+# Every hour: fetch the allowlisted RSS feeds, build data/news.json and
+# publish the site to GitHub Pages. Nothing is committed back to the repo,
+# so the repository does not grow. Free for public repositories.
+
+on:
+  schedule:
+    - cron: "17 * * * *"   # every hour, at minute 17
+  workflow_dispatch:        # "Run workflow" button in the Actions tab
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run tests
+        run: npm test
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Restore previously published news (keeps stories when a feed is briefly down)
+        run: |
+          curl -fsSL --max-time 20 "${{ steps.pages.outputs.base_url }}/data/news.json" -o /tmp/prev.json \
+            && node -e 'JSON.parse(require("fs").readFileSync("/tmp/prev.json","utf8"))' \
+            && cp /tmp/prev.json data/news.json \
+            || echo "No previous news.json published yet."
+
+      - name: Fetch feeds
+        run: npm run fetch
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site
+          cp -r index.html assets data .nojekyll _site/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

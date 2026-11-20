@@ -1,81 +1,75 @@
 # World Radar
 
-**Global Intelligence. Powered by AI. Free for Everyone.**
+**Global news. Free for everyone.** · **أخبار العالم في صفحة واحدة — مجانًا للجميع**
 
-World Radar is a multilingual global news intelligence platform starter. This repository is the first implementation foundation, not a production deployment.
+World Radar collects world headlines from public RSS feeds in nine languages
+(Arabic, English, Hebrew, French, Spanish, German, Portuguese, Japanese, Chinese),
+refreshes them every hour, shows which words several publishers are using at the
+same time ("What's emerging"), and always links each story to its original publisher.
 
-## Product commitments
-- Free for everyone: no paid tiers, subscriptions, paywalls, billing, or payment flows.
-- Launch locales: Arabic (`ar`), English (`en`), Hebrew (`he`), French (`fr`), Spanish (`es`), German (`de`), Portuguese (`pt`), Japanese (`ja`), Chinese (`zh`).
-- Full RTL layout support for Arabic and Hebrew.
-- Preserve original article language and source attribution.
-- Cost-aware infrastructure: RSS/GDELT ingestion adapters, deduplication, caching, provider fallback, rate limits, and no automatic paid-provider fallback.
-- Web foundation first; mobile clients can consume the same API as a later phase.
+It costs nothing to run: no server, no database, no API keys, no paid services.
 
-## Stack
-- Next.js App Router + TypeScript
-- Tailwind CSS
-- next-intl locale routing
-- PostgreSQL + Prisma schema
-- RSS ingestion foundation (server-side)
-- Vitest for utility tests
+## How it works
 
-## Quick start
-Requirements: Node.js 20.9+ and npm.
-
-```bash
-cp .env.example .env
-npm install
-npm run dev
+```
+GitHub Actions (every hour, free)          GitHub Pages (free)
+┌─────────────────────────────────┐        ┌──────────────────────────┐
+│ scripts/fetch-news.mjs          │        │ index.html + assets/     │
+│  • reads data/sources.json      │ ─────▶ │  reads data/news.json    │
+│  • fetches & parses RSS/Atom    │ deploy │  • 9 UI languages, RTL   │
+│  • dedupes, computes trends     │        │  • search, filters       │
+│  • writes data/news.json        │        │  • source health         │
+└─────────────────────────────────┘        └──────────────────────────┘
 ```
 
-Open http://localhost:3000.
+Nothing is committed back to the repository on each run, so the repo does not grow.
 
-The app runs in demo mode without external API keys and clearly labels seeded/demo content. Configure `DATABASE_URL` before applying Prisma migrations.
+## One-time setup (≈1 minute)
 
-## Scripts
+1. **Settings → Pages → Build and deployment → Source: _GitHub Actions_.**
+2. **Actions → "Update news and deploy" → Run workflow.**
+3. After ~1 minute the site is live at
+   `https://marwaragabmw11-tech.github.io/world-radar/`.
+
+From then on it updates itself every hour.
+
+## الإعداد لأول مرة (بالعربية)
+
+1. من المستودع: **Settings ← Pages ← Source** واختاري **GitHub Actions**.
+2. من تبويب **Actions** افتحي **Update news and deploy** واضغطي **Run workflow**.
+3. بعد دقيقة تقريبًا يظهر الموقع على الرابط أعلاه، ثم يتحدّث وحده كل ساعة.
+
+## Adding or removing a source
+
+Edit `data/sources.json` (id, name, lang, feed url, homepage). Only feeds listed
+there are ever fetched. The "Source status" section on the site shows which
+feeds worked on the last run.
+
+## Local development
+
+Requires Node.js 20+. No `npm install` needed — there are no dependencies.
+
 ```bash
-npm run dev
-npm run build
-npm run start
-npm run lint
-npm run test
-npm run db:generate
-npm run db:migrate
+npm test            # parser, dedupe and trend tests
+npm run fetch       # fetch feeds into data/news.json
+npm run serve       # open http://localhost:8080
 ```
 
-## GitHub: create your repository
-1. Create a new empty repository on GitHub named `world-radar`.
-2. Do not initialize it with a README or license (this package already includes them).
-3. Extract this ZIP, open a terminal in the extracted `world-radar` folder, then run:
+## Rules the project keeps
 
-```bash
-git init
-git add .
-git commit -m "chore: bootstrap World Radar"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/world-radar.git
-git push -u origin main
-```
+- Free for everyone: no subscriptions, paywalls, billing or ads.
+- Headlines and short excerpts only, always with the publisher's link; content belongs to publishers.
+- Headlines stay in their original language — nothing is machine-translated or machine-written.
+- Full RTL for Arabic and Hebrew.
+- No paid provider is ever called.
 
-Replace `YOUR_USERNAME` with your GitHub username.
+## Limits of the free setup
 
-## Important production notes
-- No external paid service is enabled by default.
-- Do not commit `.env` files, credentials, API tokens, or private keys.
-- The sample home feed uses clearly marked demonstration stories until real ingestion and moderation are configured.
-- RSS publishers retain their own content rights. Store metadata/excerpts and link to publishers; do not republish full copyrighted articles without permission.
-- AI summaries and fact-check outputs must show source links, timestamps, uncertainty, and model/provider provenance. They must never be presented as independently verified facts merely because AI produced them.
-- Free infrastructure limits must be handled with cache/queue/fallback or a graceful unavailable state; never silently switch to paid providers.
-- This repository does not yet contain a production-grade AI assistant, verified global feed, native Android/iOS clients, deployment secrets, or production monitoring.
-
-## Planned milestones
-1. **Foundation (this repository):** localized web shell, design system, product requirements, schema, source adapter interfaces, tests, CI.
-2. **News ingestion:** source registry, RSS/GDELT connectors, retry/backoff, deduplication, language detection, editorial source quality.
-3. **Intelligence layer:** summaries, topic clustering, fact-check workflow, citation grounding, cost-aware model routing, human escalation.
-4. **User features:** accounts (optional), watchlists, alerts, audio briefings, preferences, accessibility.
-5. **Mobile:** Android/iOS clients sharing the API and localization resources.
-6. **Hardening:** security review, load tests, privacy review, observability, disaster recovery, launch checklist.
+- Data refreshes hourly (GitHub's scheduler may delay a run by some minutes).
+- GitHub pauses scheduled workflows after 60 days with no repository activity;
+  any commit (or pressing "Run workflow") turns them back on.
+- Some publishers may block automated readers; they simply show as "down".
 
 ## License
-MIT for this starter code unless otherwise noted. Data, third-party feeds, logos, and publisher content retain their own licenses and terms.
+
+MIT for the code. Feeds, headlines and logos belong to their publishers.

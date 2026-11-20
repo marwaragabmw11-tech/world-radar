@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>World Radar — Global news, free for everyone</title>
+  <meta name="description" content="World Radar: multilingual world headlines from public RSS feeds in nine languages, refreshed hourly, always linked to the original publisher. Free for everyone.">
+  <meta name="theme-color" content="#07111f">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip" href="#latest" data-i18n="navLatest">Latest</a>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#top" id="top" aria-label="World Radar">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12 L19 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/></svg>
+        </span>
+        <span>
+          <span class="brand-name">World Radar</span>
+          <span class="brand-sub" data-i18n="brandSub">Global news radar</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#latest" data-i18n="navLatest">Latest</a>
+        <a href="#trending" data-i18n="navTrending">Emerging</a>
+        <a href="#sources" data-i18n="navSources">Sources</a>
+      </nav>
+      <label class="locale">
+        <span class="sr-only" data-i18n="language">Language</span>
+        <select id="locale" class="locale-select"></select>
+      </label>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><span class="live-dot" aria-hidden="true"></span><span data-i18n="eyebrow">Live from the sources</span></div>
+        <h1><span data-i18n="heroTitle">The whole world</span> <span class="gradient-text" data-i18n="heroAccent">on one page</span></h1>
+        <p class="hero-copy" data-i18n="heroCopy"></p>
+      </div>
+      <div class="hero-stat">
+        <div><div class="stat-number" id="stat-stories">–</div><div class="stat-label" data-i18n="statStories">stories</div></div>
+        <div><div class="stat-number" id="stat-sources">–</div><div class="stat-label" data-i18n="statSources">sources online</div></div>
+        <div class="stat-wide"><div class="stat-label" data-i18n="statUpdated">Last update</div><div class="stat-note" id="stat-updated">–</div></div>
+      </div>
+    </section>
+
+    <p class="demo-banner" id="demo-banner" hidden data-i18n="demoBanner"></p>
+
+    <section id="trending" aria-labelledby="trending-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="trending-title" data-i18n="trendingTitle">What's emerging</h2>
+          <p class="section-note" data-i18n="trendingNote"></p>
+        </div>
+      </div>
+      <div class="chips" id="trends"></div>
+    </section>
+
+    <section id="latest" aria-labelledby="latest-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="latest-title" data-i18n="latestTitle">Latest news</h2>
+          <p class="section-note" data-i18n="latestNote"></p>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="search">
+          <input id="search" type="search" autocomplete="off" enterkeyhint="search" dir="auto" data-i18n-placeholder="searchPlaceholder" placeholder="Search headlines…">
+        </div>
+        <div class="segmented" role="group">
+          <button type="button" class="seg" data-scope="mine" data-i18n="filterMyLang">My language</button>
+          <button type="button" class="seg" data-scope="all" data-i18n="filterAllLangs">All languages</button>
+        </div>
+        <select id="source-filter" class="locale-select"></select>
+      </div>
+      <div class="story-grid" id="stories" aria-live="polite"></div>
+      <p class="empty" id="empty" hidden></p>
+      <div class="more-wrap"><button type="button" class="more" id="more" hidden data-i18n="loadMore">Show more</button></div>
+    </section>
+
+    <section id="sources" aria-labelledby="sources-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="sources-title" data-i18n="sourcesTitle">Source status</h2>
+          <p class="section-note" data-i18n="sourcesNote"></p>
+        </div>
+      </div>
+      <div class="source-list" id="source-list"></div>
+    </section>
+
+    <p class="notice" data-i18n="notice"></p>
+  </main>
+
+  <footer class="shell footer">
+    <span data-i18n="footerFree">Free for everyone</span>
+    <span><span data-i18n="footerRights">News content belongs to its publishers</span> · <a href="https://github.com/marwaragabmw11-tech/world-radar" rel="noopener">GitHub</a></span>
+  </footer>
+
+  <script src="assets/i18n.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
