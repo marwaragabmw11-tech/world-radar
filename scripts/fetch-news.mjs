@@ -39,22 +39,32 @@ async function readBody(res) {
     }
     chunks.push(value);
   }
-  const buf = Buffer.concat(chunks);
-  // Respect a declared XML encoding when it isn't UTF-8 (rare for these feeds).
-  const head = buf.subarray(0, 200).toString("latin1");
-  const enc = head.match(/encoding=["']([\w-]+)["']/i)?.[1]?.toLowerCase();
-  if (enc && enc !== "utf-8" && enc !== "utf8") {
-    try { return new TextDecoder(enc).decode(buf); } catch { /* fall through */ }
-  }
-  return new TextDecoder("utf-8").decode(buf);
+  return decodeXml(Buffer.concat(chunks));
 }
 
-async function download(url) {
-  const res = await fetch(url, {
-    headers: { "user-agent": USER_AGENT, accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5" },
-    redirect: "follow",
-    signal: AbortSignal.timeout(TIMEOUT_MS)
-  });
+/**
+ * Decode feed bytes. UTF-8 first: some servers (often ASP.NET) declare
+ * encoding="utf-16" while actually sending UTF-8. Only fall back to the
+ * declared legacy encoding when UTF-8 decoding clearly fails.
+ */
+export function decodeXml(buf) {
+  if (buf[0] === 0xff && buf[1] === 0xfe) return new TextDecoder("utf-16le").decode(buf);
+  if (buf[0] === 0xfe && buf[1] === 0xff) return new TextDecoder("utf-16be").decode(buf);
+  const utf8 = new TextDecoder("utf-8").decode(buf);
+  const head = buf.subarray(0, 200).toString("latin1");
+  const enc = head.match(/encoding=["']([\w-]+)["']/i)?.[1]?.toLowerCase();
+  const broken = (utf8.match(/\uFFFD/g) || []).length > 5;
+  if (broken && enc && !/^utf-?(8|16)/.test(enc)) {
+    try { return new TextDecoder(enc).decode(buf); } catch { /* keep UTF-8 */ }
+  }
+  return utf8;
+}
+
+const ACCEPT = "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5";
+
+async function download(url, { plain = false } = {}) {
+  const headers = plain ? { "user-agent": USER_AGENT } : { "user-agent": USER_AGENT, accept: ACCEPT };
+  const res = await fetch(url, { headers, redirect: "follow", signal: AbortSignal.timeout(TIMEOUT_MS) });
   if (!/^https?:$/.test(new URL(res.url).protocol)) throw new Error("redirected to a non-HTTP URL");
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return readBody(res);
@@ -67,9 +77,16 @@ async function fetchSource(source) {
   const started = Date.now();
   const status = { id: source.id, ok: false, items: 0, ms: 0, error: null };
   try {
-    const xml = await download(source.url);
+    let parsed;
+    try {
+      parsed = parseFeed(await download(source.url));
+      if (!parsed.length) throw new Error("no items parsed");
+    } catch {
+      // One retry with minimal headers: a few servers answer differently to an Accept header.
+      parsed = parseFeed(await download(source.url, { plain: true }));
+    }
     const now = Date.now();
-    const items = parseFeed(xml)
+    const items = parsed
       .filter((it) => !it.publishedAt || it.publishedAt.getTime() <= now + 3600_000)
       .slice(0, MAX_PER_SOURCE)
       .map((it) => {
@@ -206,7 +223,9 @@ async function main() {
   if (okCount === 0) process.exitCode = 1;
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

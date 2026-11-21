@@ -819,8 +819,7 @@
    "scripts": [
     "Han",
     "Hiragana",
-    "Katakana",
-    "Latin"
+    "Katakana"
    ],
    "url": "https://trends.google.com/trending/rss?geo=JP&hl=ja"
   },
@@ -828,8 +827,7 @@
    "country": "TW",
    "hl": "zh-TW",
    "scripts": [
-    "Han",
-    "Latin"
+    "Han"
    ],
    "url": "https://trends.google.com/trending/rss?geo=TW&hl=zh-TW"
   },
@@ -837,8 +835,7 @@
    "country": "HK",
    "hl": "zh-HK",
    "scripts": [
-    "Han",
-    "Latin"
+    "Han"
    ],
    "url": "https://trends.google.com/trending/rss?geo=HK&hl=zh-HK"
   }

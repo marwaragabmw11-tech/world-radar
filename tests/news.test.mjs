@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { matchesScripts, parseFeed, parseTrendsFeed, stripPublisherSuffix, toPlainText, trafficValue, truncate } from "../scripts/lib/rss.mjs";
 import { articleFingerprint, canonicalizeUrl, dedupeArticles, normalizeHeadline } from "../scripts/lib/dedupe.mjs";
 import { computeTrends, tokenize } from "../scripts/lib/trends.mjs";
+import { decodeXml } from "../scripts/fetch-news.mjs";
 
 const RSS2 = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
@@ -119,4 +120,9 @@ test("parses Google Trends and filters foreign scripts", () => {
   assert.equal(trafficValue("2K+"), 2000);
   assert.deepEqual(items.filter((t) => matchesScripts(t.term, ["Arabic", "Latin"])).map((t) => t.term), ["مطر"]);
   assert.ok(matchesScripts("コンカフェ", ["Han", "Hiragana", "Katakana", "Latin"]));
+});
+
+test("decodes UTF-8 even when the feed wrongly declares utf-16", () => {
+  const xml = '<?xml version="1.0" encoding="utf-16"?><rss><item><title>مصر</title></item></rss>';
+  assert.ok(decodeXml(Buffer.from(xml, "utf8")).includes("مصر"));
 });
