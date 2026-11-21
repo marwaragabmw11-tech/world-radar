@@ -4,6 +4,8 @@ import { matchesScripts, parseFeed, parseTrendsFeed, stripPublisherSuffix, toPla
 import { articleFingerprint, canonicalizeUrl, dedupeArticles, normalizeHeadline } from "../scripts/lib/dedupe.mjs";
 import { computeTrends, tokenize } from "../scripts/lib/trends.mjs";
 import { decodeXml } from "../scripts/fetch-news.mjs";
+import { isQuoteHeadline, parseTelegramPreview } from "../scripts/lib/telegram.mjs";
+import { collectFigure } from "../scripts/lib/figures.mjs";
 
 const RSS2 = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
@@ -125,4 +127,42 @@ test("parses Google Trends and filters foreign scripts", () => {
 test("decodes UTF-8 even when the feed wrongly declares utf-16", () => {
   const xml = '<?xml version="1.0" encoding="utf-16"?><rss><item><title>مصر</title></item></rss>';
   assert.ok(decodeXml(Buffer.from(xml, "utf8")).includes("مصر"));
+});
+
+const TG = `<meta property="og:title" content="בנימין נתניהו"><i class="verified-icon"></i>
+<div class="tgme_widget_message_wrap js-widget_message_wrap"><div class="tgme_widget_message" data-post="bnetanyahu/123"><div class="tgme_widget_message_text js-message_text" dir="auto">שלום <b>עולם</b><br/>שורה &amp; שנייה <i class="emoji" style="x"><b>🇮🇱</b></i></div><a class="tgme_widget_message_date" href="https://t.me/bnetanyahu/123"><time datetime="2026-11-20T11:14:15+00:00" class="time">11:14</time></a></div></div>
+<div class="tgme_widget_message_wrap"><div class="tgme_widget_message" data-post="bnetanyahu/124"><div class="tgme_widget_message_photo_wrap"></div><time datetime="2026-11-20T12:00:00+00:00"></time></div></div>
+<div class="tgme_widget_message_wrap"><div class="tgme_widget_message" data-post="someoneelse/9"><div class="tgme_widget_message_text">not ours</div></div></div>`;
+
+test("reads Telegram public previews (text posts of that channel only)", () => {
+  const r = parseTelegramPreview(TG, "bnetanyahu");
+  assert.equal(r.verified, true);
+  assert.equal(r.posts.length, 1);
+  assert.equal(r.posts[0].text, "שלום עולם\nשורה & שנייה 🇮🇱");
+  assert.equal(r.posts[0].url, "https://t.me/bnetanyahu/123");
+});
+
+test("recognises quote headlines only when the person is the speaker", () => {
+  const N = ["נתניהו", "ראש הממשלה"];
+  assert.ok(isQuoteHeadline('נתניהו: "יש כוונה להקים ממשלה"', N));
+  assert.ok(isQuoteHeadline("איזנקוט: ״x״; נתניהו: ״y״", N));
+  assert.ok(isQuoteHeadline("ראש הממשלה נתניהו: לא נוותר", N));
+  assert.ok(!isQuoteHeadline("מעקב סודי על יאיר נתניהו: חברת אבטחה", N));
+  assert.ok(!isQuoteHeadline("היום שאחרי נתניהו: התרחיש", N));
+  assert.ok(isQuoteHeadline("أدرعي: بيان", ["أدرعي"]));
+});
+
+test("collects a figure's posts and quote headlines", async () => {
+  const pages = {
+    "https://t.me/s/bnetanyahu": TG,
+    "https://news.example/q": `<rss><item><title>נתניהו: לא נוותר - ynet</title><link>https://n.example/1</link><source>ynet</source><pubDate>Fri, 20 Nov 2026 10:00:00 GMT</pubDate></item><item><title>היום שאחרי נתניהו: ניתוח</title><link>https://n.example/2</link></item></rss>`
+  };
+  const { items, status } = await collectFigure(
+    { id: "n", channels: [{ type: "telegram", handle: "bnetanyahu" }], news: { url: "https://news.example/q", names: ["נתניהו"], lang: "he" } },
+    async (url) => pages[url]
+  );
+  assert.deepEqual(items.map((i) => i.kind), ["post", "quote"]);
+  assert.equal(items[1].text, "נתניהו: לא נוותר");
+  assert.equal(items[1].publisher, "ynet");
+  assert.equal(status.quotes, 1);
 });

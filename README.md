@@ -13,6 +13,13 @@ refreshes them every hour and always links each story to its original publisher.
   N12, Walla, Kan 11, Times of Israel, Maariv, Jerusalem Post, Israel Hayom,
   Makor Rishon, Channel 14, Arutz 7, Srugim — side by side, with a leaning filter.
   Labels are the commonly cited general editorial orientation, a rough guide only.
+- **Israel page** (`#israel`, or `?country=XX` for any country) — that country's
+  top Google searches, the words repeating in its headlines, and:
+- **What officials and public figures are saying** — the 11 party leaders of the
+  26th Knesset, key caretaker ministers, the President and the IDF spokespeople
+  (`data/figures.json`). Posts come straight from their official public Telegram
+  channels and YouTube RSS; because X/Facebook can't be read for free, headlines
+  that quote them ("Name: …") are added and marked with the outlet's name.
 - **Top searches now** — Google Trends "trending now" per country.
 - **Repeating in headlines** — words several publishers use at the same time.
 

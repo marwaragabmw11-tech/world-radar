@@ -26,6 +26,7 @@
       </a>
       <nav class="nav" aria-label="Sections">
         <a href="#latest" data-i18n="navLatest">Latest</a>
+        <a href="#israel" class="nav-country" data-country="IL" data-i18n="navIsrael">Israel</a>
         <a href="#trending" data-i18n="navTrending">Emerging</a>
         <a href="#compare" data-i18n="navCompare">Compare</a>
         <a href="#sources" data-i18n="navSources">Sources</a>
@@ -81,6 +82,23 @@
         <button type="button" class="tab" role="tab" data-section="local" data-i18n="tabLocal">Local</button>
       </div>
       <p class="section-note local-note" id="local-note" hidden data-i18n="localNote"></p>
+      <div class="country-panel" id="country-panel" hidden>
+        <div class="cp-block" id="cp-searches-block">
+          <h3 class="sub-title" id="cp-searches-title"></h3>
+          <div class="chips chips-spaced" id="cp-searches"></div>
+        </div>
+        <div class="cp-block" id="cp-words-block">
+          <h3 class="sub-title" id="cp-words-title"></h3>
+          <div class="chips chips-spaced" id="cp-words"></div>
+        </div>
+        <div class="cp-block" id="officials" hidden>
+          <h3 class="sub-title" data-i18n="officialsTitle">What officials and public figures are saying</h3>
+          <p class="section-note" data-i18n="officialsNote"></p>
+          <div class="chips chips-spaced" id="people"></div>
+          <div class="statements" id="statements"></div>
+          <div class="more-wrap"><button type="button" class="more" id="statements-more" hidden data-i18n="loadMore">Show more</button></div>
+        </div>
+      </div>
       <div class="controls">
         <div class="search">
           <input id="search" type="search" autocomplete="off" enterkeyhint="search" dir="auto" data-i18n-placeholder="searchPlaceholder" placeholder="Search headlines…">

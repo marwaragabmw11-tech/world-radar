@@ -53,13 +53,23 @@
     return LANG_COUNTRY[ui] || "US";
   }
 
+  function linkTarget() {
+    const params = new URLSearchParams(location.search);
+    if (location.hash === "#israel") return { section: "local", country: "IL" };
+    const c = (params.get("country") || "").toUpperCase();
+    if (/^[A-Z]{2}$/.test(c)) return { section: "local", country: c };
+    return null;
+  }
+
   const ui0 = pickLocale();
   const state = {
     ui: ui0,
-    section: "all",   // "all" | "world" | "local"
+    section: linkTarget()?.section || "all",   // "all" | "world" | "local"
     scope: null,      // "mine" | "all"; decided once data arrives
-    country: guessCountry(ui0),
+    country: linkTarget()?.country || guessCountry(ui0),
     leaning: "",
+    person: "",
+    statementsShown: 8,
     source: "",
     q: "",
     shown: PAGE,
@@ -225,6 +235,114 @@
     }));
   }
 
+  const pick = (obj) => (obj ? obj[state.ui] || obj.en || Object.values(obj)[0] || "" : "");
+  const initials = (name) => [...name.trim()][0] || "•";
+
+  function chipList(box, items, { onClick, activeTerm, link } = {}) {
+    box.replaceChildren(...items.map((tr) => {
+      const active = activeTerm && activeTerm.toLocaleLowerCase() === tr.term.toLocaleLowerCase();
+      const props = link
+        ? { class: "chip chip-link", href: link(tr), target: "_blank", rel: "noopener noreferrer", dir: "auto" }
+        : { type: "button", class: `chip${active ? " active" : ""}`, "aria-pressed": String(!!active), dir: "auto" };
+      const node = el(link ? "a" : "button", props, [
+        el("span", { text: tr.term }),
+        tr.traffic ? el("span", { class: "chip-traffic", dir: "ltr", text: tr.traffic })
+          : tr.sources ? el("span", { class: "chip-count", text: numFmt.format(tr.sources) }) : null
+      ]);
+      if (onClick) node.addEventListener("click", () => onClick(tr, active));
+      return node;
+    }));
+  }
+
+  function statementCard(st, fig) {
+    const url = safeUrl(st.url);
+    const uiDir = I18N[state.ui].dir;
+    const name = pick(fig.name);
+    const role = [pick(fig.role), pick(fig.party)].filter(Boolean).join(" · ");
+    const platform = st.platform === "telegram" ? t("platformTelegram")
+      : st.platform === "youtube" ? t("platformYoutube")
+      : st.publisher ? t("platformNews", { publisher: st.publisher }) : t("platformNewsGeneric");
+    return el("article", { class: "statement", lang: state.ui, dir: uiDir }, [
+      el("div", { class: "st-head" }, [
+        el("span", { class: "avatar", "aria-hidden": "true", text: initials(name) }),
+        el("div", { class: "st-who" }, [
+          el("div", { class: "st-name", text: name }),
+          role ? el("div", { class: "st-role", text: role }) : null
+        ]),
+        el("span", { class: `platform-badge pf-${st.platform}`, text: platform })
+      ]),
+      el("p", { class: "st-text", dir: "auto", lang: st.lang || null, text: st.text }),
+      el("div", { class: "st-foot" }, [
+        el("time", { datetime: st.publishedAt || "", title: st.publishedAt ? absTime(st.publishedAt) : null, text: relTime(st.publishedAt) }),
+        url ? el("a", { class: "read-link", href: url, target: "_blank", rel: "noopener noreferrer", text: t("openPost") }) : null
+      ])
+    ]);
+  }
+
+  function renderStatements(country) {
+    const box = $("officials");
+    const figs = (state.data?.figures || []).filter((f) => f.country === country);
+    const figMap = Object.fromEntries(figs.map((f) => [f.id, f]));
+    const all = (state.data?.statements || []).filter((st) => figMap[st.figureId]);
+    box.hidden = figs.length === 0;
+    if (box.hidden) return;
+    const counts = {};
+    for (const st of all) counts[st.figureId] = (counts[st.figureId] || 0) + 1;
+    if (state.person && !counts[state.person]) state.person = "";
+    const people = figs.filter((f) => counts[f.id]);
+    const chips = [{ id: "", label: t("allPeople"), n: all.length }, ...people.map((f) => ({ id: f.id, label: pick(f.name), n: counts[f.id] }))];
+    $("people").replaceChildren(...chips.map((c) => {
+      const active = state.person === c.id;
+      const b = el("button", { type: "button", class: `chip chip-person${active ? " active" : ""}`, "aria-pressed": String(active) }, [
+        el("span", { text: c.label }), el("span", { class: "chip-count", text: numFmt.format(c.n) })
+      ]);
+      b.addEventListener("click", () => { state.person = c.id; state.statementsShown = 8; renderStatements(country); });
+      return b;
+    }));
+    const list = all.filter((st) => !state.person || st.figureId === state.person);
+    const list2 = list.slice(0, state.statementsShown);
+    $("statements").replaceChildren(...(list2.length
+      ? list2.map((st) => statementCard(st, figMap[st.figureId]))
+      : [el("p", { class: "compare-empty", text: t("officialsEmpty") })]));
+    $("statements-more").hidden = list.length <= state.statementsShown;
+  }
+
+  function renderCountryPanel() {
+    const panel = $("country-panel");
+    panel.hidden = state.section !== "local";
+    if (panel.hidden) return;
+    const country = effectiveLocalCountry();
+    const cname = countryName(country);
+
+    const searches = (state.data?.searchTrends || {})[country];
+    $("cp-searches-block").hidden = !searches?.items?.length;
+    $("cp-searches-title").textContent = t("countrySearches", { country: cname });
+    if (searches?.items?.length) {
+      chipList($("cp-searches"), searches.items, {
+        link: (tr) => `https://news.google.com/search?q=${encodeURIComponent(tr.term)}&hl=${encodeURIComponent(searches.hl || state.ui)}&gl=${encodeURIComponent(country)}`
+      });
+    }
+
+    const words = (state.data?.localTrends || {})[country];
+    $("cp-words-block").hidden = !words?.items?.length;
+    $("cp-words-title").textContent = t("countryWords", { country: cname });
+    if (words?.items?.length) {
+      chipList($("cp-words"), words.items, {
+        activeTerm: state.q.trim(),
+        onClick: (tr, active) => {
+          state.q = active ? "" : tr.term;
+          $("search").value = state.q;
+          resetPaging();
+          renderCountryPanel();
+          renderStories();
+          renderCompare();
+          if (!active) $("search").scrollIntoView({ block: "center" });
+        }
+      });
+    }
+    renderStatements(country);
+  }
+
   function renderControls() {
     document.querySelectorAll(".tab").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.section === state.section)));
     const isLocal = state.section === "local";
@@ -359,6 +477,7 @@
     renderSearchTrends();
     renderTrends();
     renderControls();
+    renderCountryPanel();
     renderStories();
     renderCompare();
     renderSources();
@@ -382,6 +501,7 @@
       sourceMap = Object.fromEntries((data.sources || []).map((s) => [s.id, s]));
       decideScope();
       renderAll();
+      if (initial && linkTarget()) $("latest").scrollIntoView();
     } catch (err) {
       console.error(err);
       if (!state.data) {
@@ -417,6 +537,7 @@
       state.q = e.target.value;
       resetPaging();
       renderTrends();
+      if (state.section === "local") renderCountryPanel();
       renderStories();
       renderCompare();
     }, 180);
@@ -427,7 +548,24 @@
     state.source = "";
     resetPaging();
     renderControls();
+    renderCountryPanel();
     renderStories();
+  }));
+
+  function openCountry(code) {
+    state.section = "local";
+    setCountry(code);
+    state.source = "";
+    state.person = "";
+    resetPaging();
+    if (state.data) { renderControls(); renderCountryPanel(); renderStories(); renderSearchTrends(); }
+    $("latest").scrollIntoView();
+  }
+  window.addEventListener("hashchange", () => { if (location.hash === "#israel") openCountry("IL"); });
+  document.querySelectorAll(".nav-country").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    history.replaceState(null, "", "#israel");
+    openCountry(a.dataset.country);
   }));
 
   document.querySelectorAll(".seg").forEach((b) => b.addEventListener("click", () => {
@@ -440,16 +578,23 @@
   $("local-country").addEventListener("change", (e) => {
     setCountry(e.target.value);
     state.source = "";
+    state.person = "";
     resetPaging();
     renderControls();
+    renderCountryPanel();
     renderStories();
     renderSearchTrends();
+  });
+
+  $("statements-more").addEventListener("click", () => {
+    state.statementsShown += 8;
+    renderStatements(effectiveLocalCountry());
   });
 
   $("trends-country").addEventListener("change", (e) => {
     setCountry(e.target.value);
     renderSearchTrends();
-    if (state.section === "local") { renderControls(); renderStories(); }
+    if (state.section === "local") { renderControls(); renderCountryPanel(); renderStories(); }
   });
 
   $("leaning-filter").addEventListener("change", (e) => {

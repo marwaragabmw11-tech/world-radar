@@ -9,10 +9,12 @@ import { dirname, join } from "node:path";
 import { matchesScripts, parseFeed, parseTrendsFeed, stripPublisherSuffix, truncate } from "./lib/rss.mjs";
 import { articleFingerprint, canonicalizeUrl, dedupeArticles } from "./lib/dedupe.mjs";
 import { computeTrends } from "./lib/trends.mjs";
+import { collectFigure } from "./lib/figures.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SOURCES_FILE = process.env.WR_SOURCES_FILE || join(ROOT, "data", "sources.json");
 const OUTPUT_FILE = process.env.WR_OUTPUT_FILE || join(ROOT, "data", "news.json");
+const FIGURES_FILE = process.env.WR_FIGURES_FILE || join(ROOT, "data", "figures.json");
 
 const TIMEOUT_MS = 15_000;
 const MAX_BYTES = 3 * 1024 * 1024;
@@ -20,6 +22,8 @@ const MAX_PER_SOURCE = 20;
 const MAX_AGE_HOURS = 48;
 const MAX_TOTAL = 1600;
 const TRENDS_PER_COUNTRY = 12;
+const STATEMENT_DAYS = { post: 7, video: 7, quote: 3 };
+const MAX_STATEMENTS = 400;
 const CONCURRENCY = 8;
 const USER_AGENT = "WorldRadarBot/1.0 (+https://github.com/marwaragabmw11-tech/world-radar)";
 
@@ -156,9 +160,12 @@ async function loadPrevious() {
 
 async function main() {
   const { sources, searchTrends: trendConfs = [] } = JSON.parse(await readFile(SOURCES_FILE, "utf8"));
-  const [results, trendResults] = await Promise.all([
+  let figures = [];
+  try { figures = JSON.parse(await readFile(FIGURES_FILE, "utf8")).figures || []; } catch { /* optional */ }
+  const [results, trendResults, figureResults] = await Promise.all([
     mapLimit(sources, CONCURRENCY, fetchSource),
-    mapLimit(trendConfs, 4, fetchSearchTrends)
+    mapLimit(trendConfs, 4, fetchSearchTrends),
+    mapLimit(figures, 4, (f) => collectFigure(f, download))
   ]);
   const previous = await loadPrevious();
   const prevArticles = Array.isArray(previous.articles) ? previous.articles : [];
@@ -195,6 +202,35 @@ async function main() {
         : t;
   }
 
+  // Words repeating in each country's local headlines (in its main language).
+  const localTrends = {};
+  for (const country of new Set(sources.filter((s) => s.section === "local").map((s) => s.country))) {
+    const ids = new Set(sources.filter((s) => s.section === "local" && s.country === country).map((s) => s.id));
+    const arts = merged.filter((a) => ids.has(a.sourceId));
+    const byLang = computeTrends(arts);
+    const counts = {};
+    for (const a of arts) counts[a.lang] = (counts[a.lang] || 0) + 1;
+    const main = Object.keys(counts).sort((x, y) => counts[y] - counts[x])[0];
+    if (main && byLang[main]?.length) localTrends[country] = { lang: main, items: byLang[main] };
+  }
+
+  // Public statements: keep earlier ones too, so a channel that fails this hour keeps its posts.
+  const now = Date.now();
+  const prevStatements = Array.isArray(previous.statements) ? previous.statements : [];
+  const figureIds = new Set(figures.map((f) => f.id));
+  const seenStatements = new Set();
+  const statements = [...figureResults.flatMap((r) => r.items), ...prevStatements]
+    .filter((st) => figureIds.has(st.figureId))
+    .filter((st) => {
+      const key = st.id;
+      if (seenStatements.has(key)) return false;
+      seenStatements.add(key);
+      const t = Date.parse(st.publishedAt || "");
+      return Number.isFinite(t) && now - t <= (STATEMENT_DAYS[st.kind] || 3) * 86400_000 && t <= now + 3600_000;
+    })
+    .sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))
+    .slice(0, MAX_STATEMENTS);
+
   const okCount = results.filter((r) => r.status.ok).length;
   const output = {
     generatedAt: new Date().toISOString(),
@@ -209,6 +245,12 @@ async function main() {
     })),
     trends: computeTrends(merged),
     searchTrends,
+    localTrends,
+    figures: figures.map((f, i) => ({
+      id: f.id, name: f.name, role: f.role, party: f.party || null, country: f.country,
+      channels: figureResults[i].status.channels, quotes: figureResults[i].status.quotes
+    })),
+    statements,
     articles: merged
   };
 
@@ -219,7 +261,11 @@ async function main() {
   for (const t of trendResults) {
     console.log(`${t.ok ? "✓" : "✗"} trends-${t.country.padEnd(13)} ${String(t.items.length).padStart(3)} terms ${t.error ?? t.items.slice(0, 3).map((x) => x.term).join(" · ")}`);
   }
-  console.log(`\n${merged.length} articles from ${okCount}/${sources.length} sources → data/news.json`);
+  for (const r of figureResults) {
+    const ch = r.status.channels.map((c) => `${c.type}:${c.handle || c.label}=${c.ok ? c.posts : "✗"}`).join(" ");
+    console.log(`• ${r.status.id.padEnd(12)} quotes=${r.status.quotes} ${ch}${r.status.quotesError ? " news✗ " + r.status.quotesError : ""}`);
+  }
+  console.log(`\n${merged.length} articles from ${okCount}/${sources.length} sources, ${statements.length} statements → data/news.json`);
   if (okCount === 0) process.exitCode = 1;
 }
 

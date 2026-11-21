@@ -42,7 +42,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "لا تتوفر ترندات لهذه الدولة الآن.",
     viaGoogleNews: "عبر Google News",
     localNote: "أخبار محلية من صحف الدولة المختارة بكل لغاتها",
-    emergingTitle: "ما يتكرر في العناوين"
+    emergingTitle: "ما يتكرر في العناوين",
+    navIsrael: "إسرائيل",
+    countrySearches: "الأكثر بحثًا في {country}",
+    countryWords: "يتكرر في عناوين صحف {country}",
+    officialsTitle: "ماذا يقول المسؤولون والشخصيات العامة",
+    officialsNote: "منشورات من قنواتهم الرسمية العامة على تيليغرام ويوتيوب تُقرأ مباشرة. ولأن X وفيسبوك لا يمكن قراءتهما مجانًا، تُضاف تصريحاتهم كما نقلتها عناوين الأخبار، مع اسم المصدر.",
+    allPeople: "الكل",
+    platformTelegram: "تيليغرام",
+    platformYoutube: "يوتيوب",
+    platformNews: "تصريح نقلته {publisher}",
+    platformNewsGeneric: "تصريح في الأخبار",
+    officialsEmpty: "لا توجد منشورات حديثة لهذا الشخص.",
+    openPost: "فتح المنشور"
   },
   en: {
     dir: "ltr", name: "English",
@@ -85,7 +97,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "No trends available for this country right now.",
     viaGoogleNews: "via Google News",
     localNote: "Local news from the selected country's own outlets, in every language",
-    emergingTitle: "Repeating in headlines"
+    emergingTitle: "Repeating in headlines",
+    navIsrael: "Israel",
+    countrySearches: "Top searches in {country}",
+    countryWords: "Repeating in {country}'s headlines",
+    officialsTitle: "What officials and public figures are saying",
+    officialsNote: "Posts from their official public Telegram and YouTube channels, read directly. X and Facebook can't be read for free, so their statements as quoted in news headlines are added, with the outlet's name.",
+    allPeople: "Everyone",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "Quoted by {publisher}",
+    platformNewsGeneric: "Quoted in the news",
+    officialsEmpty: "No recent posts from this person.",
+    openPost: "Open post"
   },
   he: {
     dir: "rtl", name: "עברית",
@@ -128,7 +152,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "אין כרגע מגמות למדינה זו.",
     viaGoogleNews: "דרך Google News",
     localNote: "חדשות מקומיות מכלי התקשורת של המדינה שנבחרה, בכל השפות",
-    emergingTitle: "חוזר בכותרות"
+    emergingTitle: "חוזר בכותרות",
+    navIsrael: "ישראל",
+    countrySearches: "החיפושים המובילים ב{country}",
+    countryWords: "חוזר בכותרות ב{country}",
+    officialsTitle: "מה אומרים נבחרי הציבור ואישי הציבור",
+    officialsNote: "פוסטים מהערוצים הרשמיים והציבוריים שלהם בטלגרם וביוטיוב, נקראים ישירות. את X ופייסבוק אי אפשר לקרוא בחינם, ולכן נוספות גם ההתבטאויות שלהם כפי שצוטטו בכותרות החדשות, עם שם כלי התקשורת.",
+    allPeople: "כולם",
+    platformTelegram: "טלגרם",
+    platformYoutube: "יוטיוב",
+    platformNews: "צוטט ב{publisher}",
+    platformNewsGeneric: "צוטט בחדשות",
+    officialsEmpty: "אין פוסטים אחרונים מאדם זה.",
+    openPost: "לפוסט"
   },
   fr: {
     dir: "ltr", name: "Français",
@@ -171,7 +207,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "Pas de tendances pour ce pays pour l'instant.",
     viaGoogleNews: "via Google News",
     localNote: "Actualité locale des médias du pays choisi, dans toutes les langues",
-    emergingTitle: "Récurrent dans les titres"
+    emergingTitle: "Récurrent dans les titres",
+    navIsrael: "Israël",
+    countrySearches: "Recherches en tête : {country}",
+    countryWords: "Récurrent dans les titres : {country}",
+    officialsTitle: "Ce que disent les responsables et personnalités publiques",
+    officialsNote: "Publications de leurs chaînes publiques officielles Telegram et YouTube, lues directement. X et Facebook ne peuvent pas être lus gratuitement : leurs déclarations citées dans les titres de presse sont ajoutées, avec le nom du média.",
+    allPeople: "Tous",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "Cité par {publisher}",
+    platformNewsGeneric: "Cité dans la presse",
+    officialsEmpty: "Aucune publication récente de cette personne.",
+    openPost: "Ouvrir"
   },
   es: {
     dir: "ltr", name: "Español",
@@ -214,7 +262,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "No hay tendencias para este país ahora.",
     viaGoogleNews: "vía Google News",
     localNote: "Noticias locales de los medios del país elegido, en todos sus idiomas",
-    emergingTitle: "Se repite en los titulares"
+    emergingTitle: "Se repite en los titulares",
+    navIsrael: "Israel",
+    countrySearches: "Lo más buscado en {country}",
+    countryWords: "Se repite en los titulares de {country}",
+    officialsTitle: "Qué dicen los cargos y figuras públicas",
+    officialsNote: "Publicaciones de sus canales públicos oficiales de Telegram y YouTube, leídas directamente. X y Facebook no se pueden leer gratis, así que se añaden sus declaraciones citadas en titulares, con el nombre del medio.",
+    allPeople: "Todos",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "Citado por {publisher}",
+    platformNewsGeneric: "Citado en la prensa",
+    officialsEmpty: "No hay publicaciones recientes de esta persona.",
+    openPost: "Abrir"
   },
   de: {
     dir: "ltr", name: "Deutsch",
@@ -257,7 +317,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "Für dieses Land gibt es gerade keine Trends.",
     viaGoogleNews: "über Google News",
     localNote: "Lokalnachrichten aus Medien des gewählten Landes, in allen Sprachen",
-    emergingTitle: "Wiederholt in Schlagzeilen"
+    emergingTitle: "Wiederholt in Schlagzeilen",
+    navIsrael: "Israel",
+    countrySearches: "Top-Suchanfragen: {country}",
+    countryWords: "Wiederholt in Schlagzeilen: {country}",
+    officialsTitle: "Was Amtsträger und Personen des öffentlichen Lebens sagen",
+    officialsNote: "Beiträge aus ihren offiziellen öffentlichen Telegram- und YouTube-Kanälen, direkt gelesen. X und Facebook lassen sich nicht kostenlos lesen; daher werden ihre in Schlagzeilen zitierten Aussagen mit dem Namen des Mediums ergänzt.",
+    allPeople: "Alle",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "Zitiert von {publisher}",
+    platformNewsGeneric: "In den Nachrichten zitiert",
+    officialsEmpty: "Keine aktuellen Beiträge dieser Person.",
+    openPost: "Öffnen"
   },
   pt: {
     dir: "ltr", name: "Português",
@@ -300,7 +372,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "Sem tendências para este país agora.",
     viaGoogleNews: "via Google News",
     localNote: "Notícias locais dos veículos do país escolhido, em todos os idiomas",
-    emergingTitle: "Repetido nas manchetes"
+    emergingTitle: "Repetido nas manchetes",
+    navIsrael: "Israel",
+    countrySearches: "Mais buscados: {country}",
+    countryWords: "Repetido nas manchetes: {country}",
+    officialsTitle: "O que dizem autoridades e figuras públicas",
+    officialsNote: "Publicações dos canais públicos oficiais no Telegram e no YouTube, lidas diretamente. X e Facebook não podem ser lidos de graça, então suas declarações citadas em manchetes são incluídas, com o nome do veículo.",
+    allPeople: "Todos",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "Citado por {publisher}",
+    platformNewsGeneric: "Citado na imprensa",
+    officialsEmpty: "Nenhuma publicação recente desta pessoa.",
+    openPost: "Abrir"
   },
   ja: {
     dir: "ltr", name: "日本語",
@@ -343,7 +427,19 @@ window.WR_I18N = {
     searchTrendsEmpty: "この国のトレンドは現在ありません。",
     viaGoogleNews: "Google News経由",
     localNote: "選んだ国のメディアによる国内ニュース（全言語）",
-    emergingTitle: "見出しで繰り返される言葉"
+    emergingTitle: "見出しで繰り返される言葉",
+    navIsrael: "イスラエル",
+    countrySearches: "{country}の検索トレンド",
+    countryWords: "{country}の見出しで繰り返される言葉",
+    officialsTitle: "要人・公人の発言",
+    officialsNote: "公式の公開Telegram・YouTubeチャンネルの投稿を直接取得しています。XとFacebookは無料で取得できないため、ニュース見出しで引用された発言を媒体名とともに掲載しています。",
+    allPeople: "全員",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "{publisher}が引用",
+    platformNewsGeneric: "報道での発言",
+    officialsEmpty: "この人物の最近の投稿はありません。",
+    openPost: "開く"
   },
   zh: {
     dir: "ltr", name: "中文",
@@ -386,6 +482,18 @@ window.WR_I18N = {
     searchTrendsEmpty: "该国家/地区目前没有热门趋势。",
     viaGoogleNews: "经由 Google News",
     localNote: "所选国家/地区本地媒体的新闻（所有语言）",
-    emergingTitle: "标题中反复出现"
+    emergingTitle: "标题中反复出现",
+    navIsrael: "以色列",
+    countrySearches: "{country}热门搜索",
+    countryWords: "{country}标题中反复出现",
+    officialsTitle: "官员与公众人物在说什么",
+    officialsNote: "直接读取他们在Telegram和YouTube的官方公开频道。X和Facebook无法免费读取，因此另附新闻标题中引用的言论，并注明媒体名称。",
+    allPeople: "全部",
+    platformTelegram: "Telegram",
+    platformYoutube: "YouTube",
+    platformNews: "{publisher}引述",
+    platformNewsGeneric: "新闻引述",
+    officialsEmpty: "此人近期没有发布内容。",
+    openPost: "打开"
   }
 };

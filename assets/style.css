@@ -196,3 +196,25 @@ section { margin-top: 26px; }
 .source-item { flex-wrap: wrap; row-gap: 2px; }
 .source-item .name { flex: 1 1 0; }
 .source-item .state { flex-basis: 100%; padding-inline-start: 18px; }
+
+/* --- v3: country panel & public statements --- */
+.country-panel { border: 1px solid var(--line); border-radius: 18px; background: rgba(16,30,48,.45); padding: 4px 18px 18px; margin-bottom: 18px; }
+.cp-block + .cp-block { border-top: 1px solid var(--line); margin-top: 18px; }
+.cp-block .sub-title { margin-top: 16px; }
+.statements { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.statement { border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg, rgba(20,38,59,.9), rgba(12,25,41,.9)); padding: 14px 15px; display: flex; flex-direction: column; gap: 10px; }
+.st-head { display: flex; align-items: center; gap: 10px; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; flex: none; display: grid; place-items: center; font-weight: 800; color: #07111f; background: linear-gradient(140deg, var(--accent), var(--accent-2)); }
+.st-who { flex: 1; min-width: 0; }
+.st-name { font-weight: 700; font-size: 14px; }
+.st-role { color: var(--muted); font-size: 11px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.platform-badge { flex: none; font-size: 11px; border-radius: 6px; padding: 2px 8px; border: 1px solid var(--line); color: #cfe0f1; white-space: nowrap; }
+.pf-telegram { border-color: rgba(118,169,255,.45); }
+.pf-youtube { border-color: rgba(255,115,126,.45); }
+.pf-news { border-color: rgba(201,211,222,.35); color: var(--muted); }
+.st-text { margin: 0; font-size: 14px; line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical; overflow: hidden; }
+.st-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); }
+.chip-person.active { color: #07111f; background: var(--accent); border-color: transparent; font-weight: 700; }
+.nav-country { color: var(--accent); }
+@media (max-width: 760px) { .statements { grid-template-columns: minmax(0, 1fr); } .country-panel { padding: 2px 14px 14px; } }
+.statement, .st-head { min-width: 0; }
