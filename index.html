@@ -27,6 +27,7 @@
       <nav class="nav" aria-label="Sections">
         <a href="#latest" data-i18n="navLatest">Latest</a>
         <a href="#trending" data-i18n="navTrending">Emerging</a>
+        <a href="#compare" data-i18n="navCompare">Compare</a>
         <a href="#sources" data-i18n="navSources">Sources</a>
       </nav>
       <label class="locale">
@@ -55,11 +56,16 @@
     <section id="trending" aria-labelledby="trending-title">
       <div class="section-head">
         <div>
-          <h2 class="section-title" id="trending-title" data-i18n="trendingTitle">What's emerging</h2>
-          <p class="section-note" data-i18n="trendingNote"></p>
+          <h2 class="section-title" id="trending-title" data-i18n="searchTrendsTitle">Top searches now</h2>
+          <p class="section-note" data-i18n="searchTrendsNote"></p>
         </div>
+        <select class="locale-select country-select" id="trends-country"></select>
       </div>
-      <div class="chips" id="trends"></div>
+      <div class="chips" id="search-trends"></div>
+
+      <h3 class="sub-title" data-i18n="emergingTitle">Repeating in headlines</h3>
+      <p class="section-note" data-i18n="trendingNote"></p>
+      <div class="chips chips-spaced" id="trends"></div>
     </section>
 
     <section id="latest" aria-labelledby="latest-title">
@@ -69,19 +75,37 @@
           <p class="section-note" data-i18n="latestNote"></p>
         </div>
       </div>
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab" role="tab" data-section="all" data-i18n="tabAll">All</button>
+        <button type="button" class="tab" role="tab" data-section="world" data-i18n="tabWorld">World</button>
+        <button type="button" class="tab" role="tab" data-section="local" data-i18n="tabLocal">Local</button>
+      </div>
+      <p class="section-note local-note" id="local-note" hidden data-i18n="localNote"></p>
       <div class="controls">
         <div class="search">
           <input id="search" type="search" autocomplete="off" enterkeyhint="search" dir="auto" data-i18n-placeholder="searchPlaceholder" placeholder="Search headlines…">
         </div>
-        <div class="segmented" role="group">
+        <select id="local-country" class="locale-select country-select" hidden></select>
+        <div class="segmented" role="group" id="scope-group">
           <button type="button" class="seg" data-scope="mine" data-i18n="filterMyLang">My language</button>
           <button type="button" class="seg" data-scope="all" data-i18n="filterAllLangs">All languages</button>
         </div>
+        <select id="leaning-filter" class="locale-select" hidden></select>
         <select id="source-filter" class="locale-select"></select>
       </div>
       <div class="story-grid" id="stories" aria-live="polite"></div>
       <p class="empty" id="empty" hidden></p>
       <div class="more-wrap"><button type="button" class="more" id="more" hidden data-i18n="loadMore">Show more</button></div>
+    </section>
+
+    <section id="compare" aria-labelledby="compare-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="compare-title" data-i18n="compareTitle">Israeli press: left to right</h2>
+          <p class="section-note" data-i18n="compareNote"></p>
+        </div>
+      </div>
+      <div class="compare-grid" id="compare-grid"></div>
     </section>
 
     <section id="sources" aria-labelledby="sources-title">

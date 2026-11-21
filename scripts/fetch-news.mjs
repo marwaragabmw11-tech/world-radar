@@ -6,8 +6,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { parseFeed, truncate } from "./lib/rss.mjs";
-import { articleFingerprint, dedupeArticles } from "./lib/dedupe.mjs";
+import { matchesScripts, parseFeed, parseTrendsFeed, stripPublisherSuffix, truncate } from "./lib/rss.mjs";
+import { articleFingerprint, canonicalizeUrl, dedupeArticles } from "./lib/dedupe.mjs";
 import { computeTrends } from "./lib/trends.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -16,10 +16,11 @@ const OUTPUT_FILE = process.env.WR_OUTPUT_FILE || join(ROOT, "data", "news.json"
 
 const TIMEOUT_MS = 15_000;
 const MAX_BYTES = 3 * 1024 * 1024;
-const MAX_PER_SOURCE = 25;
+const MAX_PER_SOURCE = 20;
 const MAX_AGE_HOURS = 48;
-const MAX_TOTAL = 700;
-const CONCURRENCY = 6;
+const MAX_TOTAL = 1600;
+const TRENDS_PER_COUNTRY = 12;
+const CONCURRENCY = 8;
 const USER_AGENT = "WorldRadarBot/1.0 (+https://github.com/marwaragabmw11-tech/world-radar)";
 
 async function readBody(res) {
@@ -48,41 +49,68 @@ async function readBody(res) {
   return new TextDecoder("utf-8").decode(buf);
 }
 
+async function download(url) {
+  const res = await fetch(url, {
+    headers: { "user-agent": USER_AGENT, accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5" },
+    redirect: "follow",
+    signal: AbortSignal.timeout(TIMEOUT_MS)
+  });
+  if (!/^https?:$/.test(new URL(res.url).protocol)) throw new Error("redirected to a non-HTTP URL");
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return readBody(res);
+}
+
+const errorText = (err) =>
+  String(err?.name === "TimeoutError" ? "timeout" : err?.message || err).slice(0, 160);
+
 async function fetchSource(source) {
   const started = Date.now();
   const status = { id: source.id, ok: false, items: 0, ms: 0, error: null };
   try {
-    const res = await fetch(source.url, {
-      headers: { "user-agent": USER_AGENT, accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5" },
-      redirect: "follow",
-      signal: AbortSignal.timeout(TIMEOUT_MS)
-    });
-    if (!/^https?:$/.test(new URL(res.url).protocol)) throw new Error("redirected to a non-HTTP URL");
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const xml = await readBody(res);
+    const xml = await download(source.url);
     const now = Date.now();
     const items = parseFeed(xml)
       .filter((it) => !it.publishedAt || it.publishedAt.getTime() <= now + 3600_000)
       .slice(0, MAX_PER_SOURCE)
-      .map((it) => ({
-        id: articleFingerprint({ canonicalUrl: it.link, title: it.title }),
-        sourceId: source.id,
-        lang: source.lang,
-        title: truncate(it.title, 300),
-        excerpt: truncate(it.excerpt === it.title ? "" : it.excerpt, 240),
-        url: it.link,
-        publishedAt: it.publishedAt ? it.publishedAt.toISOString() : null,
-        fetchedAt: new Date(now).toISOString()
-      }));
+      .map((it) => {
+        const title = source.via === "google-news"
+          ? stripPublisherSuffix(it.title, [it.sourceName, source.name])
+          : it.title;
+        return {
+          id: articleFingerprint({ canonicalUrl: it.link, title }),
+          sourceId: source.id,
+          lang: source.lang,
+          title: truncate(title, 300),
+          excerpt: source.via === "google-news" || it.excerpt === it.title ? "" : truncate(it.excerpt, 240),
+          url: it.link,
+          publishedAt: it.publishedAt ? it.publishedAt.toISOString() : null,
+          fetchedAt: new Date(now).toISOString()
+        };
+      });
     if (items.length === 0) throw new Error("no items parsed");
     status.ok = true;
     status.items = items.length;
     return { status, items };
   } catch (err) {
-    status.error = String(err?.name === "TimeoutError" ? "timeout" : err?.message || err).slice(0, 160);
+    status.error = errorText(err);
     return { status, items: [] };
   } finally {
     status.ms = Date.now() - started;
+  }
+}
+
+async function fetchSearchTrends(conf) {
+  try {
+    const xml = await download(conf.url);
+    const items = parseTrendsFeed(xml)
+      .filter((t) => matchesScripts(t.term, conf.scripts))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, TRENDS_PER_COUNTRY)
+      .map((t) => ({ term: t.term, traffic: t.traffic, value: t.value }));
+    if (!items.length) throw new Error("no trends parsed");
+    return { country: conf.country, hl: conf.hl, ok: true, items };
+  } catch (err) {
+    return { country: conf.country, hl: conf.hl, ok: false, error: errorText(err), items: [] };
   }
 }
 
@@ -103,24 +131,52 @@ async function mapLimit(list, limit, fn) {
 async function loadPrevious() {
   try {
     const prev = JSON.parse(await readFile(OUTPUT_FILE, "utf8"));
-    return Array.isArray(prev.articles) && !prev.demo ? prev.articles : [];
+    return prev.demo ? {} : prev;
   } catch {
-    return [];
+    return {};
   }
 }
 
 async function main() {
-  const { sources } = JSON.parse(await readFile(SOURCES_FILE, "utf8"));
-  const results = await mapLimit(sources, CONCURRENCY, fetchSource);
-  const fresh = results.flatMap((r) => r.items);
+  const { sources, searchTrends: trendConfs = [] } = JSON.parse(await readFile(SOURCES_FILE, "utf8"));
+  const [results, trendResults] = await Promise.all([
+    mapLimit(sources, CONCURRENCY, fetchSource),
+    mapLimit(trendConfs, 4, fetchSearchTrends)
+  ]);
   const previous = await loadPrevious();
+  const prevArticles = Array.isArray(previous.articles) ? previous.articles : [];
+  const knownIds = new Set(sources.map((s) => s.id));
+
+  // Undated items (some feeds omit dates) keep the time we first saw them,
+  // so they don't jump back to the top on every run.
+  const firstSeen = new Map(prevArticles.map((a) => [canonicalizeUrl(a.url), a.fetchedAt]));
+  const fresh = results.flatMap((r) => r.items).map((a) =>
+    a.publishedAt ? a : { ...a, fetchedAt: firstSeen.get(canonicalizeUrl(a.url)) || a.fetchedAt }
+  );
 
   const cutoff = Date.now() - MAX_AGE_HOURS * 3600_000;
   const timeOf = (a) => Date.parse(a.publishedAt || a.fetchedAt);
-  const merged = dedupeArticles([...fresh, ...previous])
+  const perSource = new Map();
+  const merged = dedupeArticles([...fresh, ...prevArticles.filter((a) => knownIds.has(a.sourceId))])
     .filter((a) => timeOf(a) >= cutoff)
     .sort((a, b) => timeOf(b) - timeOf(a))
+    .filter((a) => {
+      const n = (perSource.get(a.sourceId) || 0) + 1;
+      perSource.set(a.sourceId, n);
+      return n <= MAX_PER_SOURCE * 2; // this hour's items plus recently seen ones
+    })
     .slice(0, MAX_TOTAL);
+
+  // If a trends feed fails this hour, keep the last good list.
+  const prevTrends = previous.searchTrends || {};
+  const searchTrends = {};
+  for (const t of trendResults) {
+    searchTrends[t.country] = t.ok
+      ? { ...t, updatedAt: new Date().toISOString() }
+      : prevTrends[t.country]?.ok
+        ? { ...prevTrends[t.country], stale: true }
+        : t;
+  }
 
   const okCount = results.filter((r) => r.status.ok).length;
   const output = {
@@ -128,18 +184,23 @@ async function main() {
     demo: false,
     stats: { articles: merged.length, sourcesOk: okCount, sourcesTotal: sources.length },
     sources: sources.map((s, i) => ({
-      id: s.id, name: s.name, lang: s.lang, home: s.home, ...results[i].status
+      id: s.id, name: s.name, lang: s.lang, home: s.home,
+      country: s.country, section: s.section,
+      ...(s.leaning ? { leaning: s.leaning } : {}),
+      ...(s.via ? { via: s.via } : {}),
+      ...results[i].status
     })),
     trends: computeTrends(merged),
+    searchTrends,
     articles: merged
   };
 
-  if (merged.length === 0 && previous.length === 0) {
-    console.error("No articles could be fetched from any source.");
-  }
   await writeFile(OUTPUT_FILE, JSON.stringify(output) + "\n");
   for (const r of results) {
-    console.log(`${r.status.ok ? "✓" : "✗"} ${r.status.id.padEnd(16)} ${String(r.status.items).padStart(3)} items ${r.status.ms}ms ${r.status.error ?? ""}`);
+    console.log(`${r.status.ok ? "✓" : "✗"} ${r.status.id.padEnd(20)} ${String(r.status.items).padStart(3)} items ${r.status.ms}ms ${r.status.error ?? ""}`);
+  }
+  for (const t of trendResults) {
+    console.log(`${t.ok ? "✓" : "✗"} trends-${t.country.padEnd(13)} ${String(t.items.length).padStart(3)} terms ${t.error ?? t.items.slice(0, 3).map((x) => x.term).join(" · ")}`);
   }
   console.log(`\n${merged.length} articles from ${okCount}/${sources.length} sources → data/news.json`);
   if (okCount === 0) process.exitCode = 1;

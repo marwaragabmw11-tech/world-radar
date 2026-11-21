@@ -2,10 +2,19 @@
 
 **Global news. Free for everyone.** · **أخبار العالم في صفحة واحدة — مجانًا للجميع**
 
-World Radar collects world headlines from public RSS feeds in nine languages
+World Radar collects headlines from public RSS feeds in nine languages
 (Arabic, English, Hebrew, French, Spanish, German, Portuguese, Japanese, Chinese),
-refreshes them every hour, shows which words several publishers are using at the
-same time ("What's emerging"), and always links each story to its original publisher.
+refreshes them every hour and always links each story to its original publisher.
+
+- **World / Local tabs** — world news, or the local press of a chosen country
+  (Egypt, Saudi Arabia, UAE, Morocco, Jordan, Lebanon, Israel, US, UK, France,
+  Germany, Spain, Brazil, Portugal, Japan, Taiwan, Hong Kong).
+- **Israeli press, left to right** — Haaretz, Local Call, +972, Davar, ynet,
+  N12, Walla, Kan 11, Times of Israel, Maariv, Jerusalem Post, Israel Hayom,
+  Makor Rishon, Channel 14, Arutz 7, Srugim — side by side, with a leaning filter.
+  Labels are the commonly cited general editorial orientation, a rough guide only.
+- **Top searches now** — Google Trends "trending now" per country.
+- **Repeating in headlines** — words several publishers use at the same time.
 
 It costs nothing to run: no server, no database, no API keys, no paid services.
 
@@ -41,8 +50,12 @@ From then on it updates itself every hour.
 
 ## Adding or removing a source
 
-Edit `data/sources.json` (id, name, lang, feed url, homepage). Only feeds listed
-there are ever fetched. The "Source status" section on the site shows which
+Edit `data/sources.json` (id, name, lang, url, home, country, section
+`world`/`local`, optional `leaning`, optional `via`). Only feeds listed there are
+ever fetched. Some publishers (e.g. Haaretz, +972, Okaz) block automated readers;
+for those the public headlines come from Google News' official RSS search feed
+(`via: "google-news"`), and links still lead to the publisher. Search-trend
+countries are listed under `searchTrends`. The "Source status" section on the site shows which
 feeds worked on the last run.
 
 ## Local development

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { parseFeed, toPlainText, truncate } from "../scripts/lib/rss.mjs";
+import { matchesScripts, parseFeed, parseTrendsFeed, stripPublisherSuffix, toPlainText, trafficValue, truncate } from "../scripts/lib/rss.mjs";
 import { articleFingerprint, canonicalizeUrl, dedupeArticles, normalizeHeadline } from "../scripts/lib/dedupe.mjs";
 import { computeTrends, tokenize } from "../scripts/lib/trends.mjs";
 
@@ -92,4 +92,31 @@ test("trends need several publishers", () => {
     { title: "Weather report", lang: "en", sourceId: "a", publishedAt: at }
   ], { now });
   assert.deepEqual(trends.en.map((t) => t.term), ["cairo"]);
+});
+
+const GOOGLE_NEWS = `<rss><channel><item><title>נתניהו נפגש עם איזנקוט - הארץ</title>
+<link>https://news.google.com/rss/articles/abc</link><pubDate>Sat, 21 Nov 2026 07:46:00 GMT</pubDate>
+<source url="https://www.haaretz.co.il">הארץ</source></item></channel></rss>`;
+
+test("strips the publisher suffix from Google News headlines", () => {
+  const [item] = parseFeed(GOOGLE_NEWS);
+  assert.equal(item.sourceName, "הארץ");
+  assert.equal(stripPublisherSuffix(item.title, [item.sourceName]), "נתניהו נפגש עם איזנקוט");
+  assert.equal(stripPublisherSuffix("Short - X", ["X"]), "Short - X");
+});
+
+const TRENDS = `<rss xmlns:ht="https://trends.google.com/trending/rss"><channel>
+<item><title>مطر</title><ht:approx_traffic>100,000+</ht:approx_traffic><pubDate>Sat, 21 Nov 2026 05:30:00 -0800</pubDate>
+<ht:news_item><ht:news_item_title>ignored</ht:news_item_title></ht:news_item></item>
+<item><title>แมนซิตี พบ ฟูลัม</title><ht:approx_traffic>2K+</ht:approx_traffic></item>
+</channel></rss>`;
+
+test("parses Google Trends and filters foreign scripts", () => {
+  const items = parseTrendsFeed(TRENDS);
+  assert.equal(items.length, 2);
+  assert.equal(items[0].term, "مطر");
+  assert.equal(items[0].value, 100000);
+  assert.equal(trafficValue("2K+"), 2000);
+  assert.deepEqual(items.filter((t) => matchesScripts(t.term, ["Arabic", "Latin"])).map((t) => t.term), ["مطر"]);
+  assert.ok(matchesScripts("コンカフェ", ["Han", "Hiragana", "Katakana", "Latin"]));
 });

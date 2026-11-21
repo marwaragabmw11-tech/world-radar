@@ -10,8 +10,11 @@
 - [x] Unit tests run on every deploy
 
 ## Phase 2 — Better coverage (still free)
-- [ ] Review each publisher's terms and replace feeds that block bots
-- [ ] More sources per language and regional/topic tags
+- [x] Local news per country (17 countries) with World / Local tabs
+- [x] Israeli press from left to right, leaning filter and side-by-side comparison
+- [x] Google Trends top searches per country
+- [x] Feeds that block bots read through Google News RSS
+- [ ] Review each publisher's terms; add more countries and topic tags
 - [ ] Group the same event across publishers and languages (clustering)
 - [ ] Installable PWA and offline reading of the last update
 

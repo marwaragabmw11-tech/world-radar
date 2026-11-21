@@ -105,9 +105,56 @@ export function parseFeed(xml) {
     const publishedAt = parseDate(
       tagText(block, ["pubDate", "dc:date", "published", "updated", "a10:updated"])
     );
-    items.push({ title, link, excerpt, publishedAt });
+    const sourceName = toPlainText(tagText(block, ["source"]));
+    items.push({ title, link, excerpt, publishedAt, sourceName });
   }
   return items;
+}
+
+/** Google News appends " - Publisher" to every headline; remove it. */
+export function stripPublisherSuffix(title, names) {
+  let out = title;
+  for (const name of names.filter(Boolean)) {
+    const suffix = ` - ${name}`;
+    if (out.length > suffix.length + 8 && out.endsWith(suffix)) out = out.slice(0, -suffix.length).trim();
+  }
+  return out;
+}
+
+/** Turn "100,000+" / "2K+" into a number for sorting. */
+export function trafficValue(text) {
+  const m = String(text || "").replace(/[,\s]/g, "").match(/^(\d+(?:\.\d+)?)([KM])?/i);
+  if (!m) return 0;
+  const n = parseFloat(m[1]);
+  return Math.round(m[2] ? n * (m[2].toUpperCase() === "M" ? 1e6 : 1e3) : n);
+}
+
+/** Keep only terms written in scripts used in that country (the feed mixes in foreign-language noise). */
+export function matchesScripts(term, scripts) {
+  if (!scripts || !scripts.length) return true;
+  const letters = [...term].filter((ch) => /\p{L}/u.test(ch));
+  if (!letters.length) return false;
+  const res = scripts.map((sc) => new RegExp(`\\p{Script=${sc}}`, "u"));
+  return letters.every((ch) => res.some((re) => re.test(ch)));
+}
+
+/**
+ * Parse a Google Trends "trending now" RSS feed.
+ * @returns {{term:string, traffic:string, value:number, startedAt:Date|null}[]}
+ */
+export function parseTrendsFeed(xml) {
+  const blocks = xml.match(/<item\b[\s\S]*?<\/item>/gi) || [];
+  return blocks
+    .map((block) => {
+      const traffic = toPlainText(tagText(block, ["ht:approx_traffic"]));
+      return {
+        term: toPlainText(tagText(block, ["title"])),
+        traffic,
+        value: trafficValue(traffic),
+        startedAt: parseDate(tagText(block, ["pubDate"]))
+      };
+    })
+    .filter((t) => t.term);
 }
 
 /** Shorten text at a word boundary without cutting mid-word where possible. */

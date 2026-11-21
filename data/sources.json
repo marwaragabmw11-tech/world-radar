@@ -1,38 +1,846 @@
 {
-  "_note": "Allowlist of public RSS/Atom feeds. Only these URLs are ever fetched. Publishers keep all rights: World Radar stores the headline, a short excerpt and the link only.",
-  "sources": [
-    { "id": "bbc-world", "name": "BBC News", "lang": "en", "url": "https://feeds.bbci.co.uk/news/world/rss.xml", "home": "https://www.bbc.com/news/world" },
-    { "id": "guardian-world", "name": "The Guardian", "lang": "en", "url": "https://www.theguardian.com/world/rss", "home": "https://www.theguardian.com/world" },
-    { "id": "aljazeera-en", "name": "Al Jazeera English", "lang": "en", "url": "https://www.aljazeera.com/xml/rss/all.xml", "home": "https://www.aljazeera.com" },
-    { "id": "npr-world", "name": "NPR", "lang": "en", "url": "https://feeds.npr.org/1004/rss.xml", "home": "https://www.npr.org/sections/world/" },
-
-    { "id": "bbc-arabic", "name": "BBC عربي", "lang": "ar", "url": "https://feeds.bbci.co.uk/arabic/rss.xml", "home": "https://www.bbc.com/arabic" },
-    { "id": "dw-arabic", "name": "DW عربية", "lang": "ar", "url": "https://rss.dw.com/rdf/rss-ar-all", "home": "https://www.dw.com/ar" },
-    { "id": "france24-ar", "name": "فرانس 24", "lang": "ar", "url": "https://www.france24.com/ar/rss", "home": "https://www.france24.com/ar/" },
-    { "id": "skynews-ar", "name": "سكاي نيوز عربية", "lang": "ar", "url": "https://www.skynewsarabia.com/rss/web/rss/world.xml", "home": "https://www.skynewsarabia.com" },
-
-    { "id": "ynet", "name": "ynet", "lang": "he", "url": "https://www.ynet.co.il/Integration/StoryRss2.xml", "home": "https://www.ynet.co.il" },
-    { "id": "kan-news", "name": "כאן חדשות", "lang": "he", "url": "https://www.kan.org.il/rss/", "home": "https://www.kan.org.il" },
-
-    { "id": "france24-fr", "name": "France 24", "lang": "fr", "url": "https://www.france24.com/fr/rss", "home": "https://www.france24.com/fr/" },
-    { "id": "lemonde-intl", "name": "Le Monde", "lang": "fr", "url": "https://www.lemonde.fr/international/rss_full.xml", "home": "https://www.lemonde.fr/international/" },
-    { "id": "rfi-fr", "name": "RFI", "lang": "fr", "url": "https://www.rfi.fr/fr/rss", "home": "https://www.rfi.fr/fr/" },
-
-    { "id": "bbc-mundo", "name": "BBC Mundo", "lang": "es", "url": "https://feeds.bbci.co.uk/mundo/rss.xml", "home": "https://www.bbc.com/mundo" },
-    { "id": "france24-es", "name": "France 24 Español", "lang": "es", "url": "https://www.france24.com/es/rss", "home": "https://www.france24.com/es/" },
-    { "id": "dw-es", "name": "DW Español", "lang": "es", "url": "https://rss.dw.com/rdf/rss-sp-all", "home": "https://www.dw.com/es" },
-
-    { "id": "tagesschau", "name": "tagesschau", "lang": "de", "url": "https://www.tagesschau.de/xml/rss2/", "home": "https://www.tagesschau.de" },
-    { "id": "dw-de", "name": "DW Deutsch", "lang": "de", "url": "https://rss.dw.com/rdf/rss-de-all", "home": "https://www.dw.com/de" },
-    { "id": "spiegel", "name": "DER SPIEGEL", "lang": "de", "url": "https://www.spiegel.de/schlagzeilen/index.rss", "home": "https://www.spiegel.de" },
-
-    { "id": "bbc-brasil", "name": "BBC News Brasil", "lang": "pt", "url": "https://feeds.bbci.co.uk/portuguese/rss.xml", "home": "https://www.bbc.com/portuguese" },
-    { "id": "dw-br", "name": "DW Brasil", "lang": "pt", "url": "https://rss.dw.com/rdf/rss-br-all", "home": "https://www.dw.com/pt-br" },
-
-    { "id": "nhk", "name": "NHK", "lang": "ja", "url": "https://www3.nhk.or.jp/rss/news/cat0.xml", "home": "https://www3.nhk.or.jp/news/" },
-    { "id": "bbc-japanese", "name": "BBC News Japan", "lang": "ja", "url": "https://feeds.bbci.co.uk/japanese/rss.xml", "home": "https://www.bbc.com/japanese" },
-
-    { "id": "bbc-zhongwen", "name": "BBC 中文", "lang": "zh", "url": "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml", "home": "https://www.bbc.com/zhongwen/simp" },
-    { "id": "dw-zh", "name": "DW 中文", "lang": "zh", "url": "https://rss.dw.com/rdf/rss-chi-all", "home": "https://www.dw.com/zh" }
-  ]
+ "_note": "Allowlist of public RSS/Atom feeds. Only these URLs are ever fetched. Publishers keep all rights: World Radar stores the headline, a short excerpt and the link only. 'via: google-news' = the publisher blocks automated readers, so its public headlines come from Google News' official RSS. 'leaning' = the commonly cited general editorial orientation, shown as a rough guide only; it is not a rating of accuracy.",
+ "sources": [
+  {
+   "id": "bbc-world",
+   "name": "BBC News",
+   "lang": "en",
+   "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+   "home": "https://www.bbc.com/news/world",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "guardian-world",
+   "name": "The Guardian",
+   "lang": "en",
+   "url": "https://www.theguardian.com/world/rss",
+   "home": "https://www.theguardian.com/world",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "aljazeera-en",
+   "name": "Al Jazeera English",
+   "lang": "en",
+   "url": "https://www.aljazeera.com/xml/rss/all.xml",
+   "home": "https://www.aljazeera.com",
+   "country": "QA",
+   "section": "world"
+  },
+  {
+   "id": "npr-world",
+   "name": "NPR",
+   "lang": "en",
+   "url": "https://feeds.npr.org/1004/rss.xml",
+   "home": "https://www.npr.org/sections/world/",
+   "country": "US",
+   "section": "world"
+  },
+  {
+   "id": "bbc-arabic",
+   "name": "BBC عربي",
+   "lang": "ar",
+   "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
+   "home": "https://www.bbc.com/arabic",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "dw-arabic",
+   "name": "DW عربية",
+   "lang": "ar",
+   "url": "https://rss.dw.com/rdf/rss-ar-all",
+   "home": "https://www.dw.com/ar",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "skynews-ar",
+   "name": "سكاي نيوز عربية",
+   "lang": "ar",
+   "url": "https://www.skynewsarabia.com/rss",
+   "home": "https://www.skynewsarabia.com",
+   "country": "AE",
+   "section": "world"
+  },
+  {
+   "id": "aawsat",
+   "name": "الشرق الأوسط",
+   "lang": "ar",
+   "url": "https://aawsat.com/feed",
+   "home": "https://aawsat.com",
+   "country": "SA",
+   "section": "world"
+  },
+  {
+   "id": "lemonde-intl",
+   "name": "Le Monde",
+   "lang": "fr",
+   "url": "https://www.lemonde.fr/international/rss_full.xml",
+   "home": "https://www.lemonde.fr/international/",
+   "country": "FR",
+   "section": "world"
+  },
+  {
+   "id": "rfi-fr",
+   "name": "RFI",
+   "lang": "fr",
+   "url": "https://www.rfi.fr/fr/rss",
+   "home": "https://www.rfi.fr/fr/",
+   "country": "FR",
+   "section": "world"
+  },
+  {
+   "id": "bbc-mundo",
+   "name": "BBC Mundo",
+   "lang": "es",
+   "url": "https://feeds.bbci.co.uk/mundo/rss.xml",
+   "home": "https://www.bbc.com/mundo",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "dw-es",
+   "name": "DW Español",
+   "lang": "es",
+   "url": "https://rss.dw.com/rdf/rss-sp-all",
+   "home": "https://www.dw.com/es",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "tagesschau",
+   "name": "tagesschau",
+   "lang": "de",
+   "url": "https://www.tagesschau.de/xml/rss2/",
+   "home": "https://www.tagesschau.de",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "dw-de",
+   "name": "DW Deutsch",
+   "lang": "de",
+   "url": "https://rss.dw.com/rdf/rss-de-all",
+   "home": "https://www.dw.com/de",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "spiegel",
+   "name": "DER SPIEGEL",
+   "lang": "de",
+   "url": "https://www.spiegel.de/schlagzeilen/index.rss",
+   "home": "https://www.spiegel.de",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "bbc-brasil",
+   "name": "BBC News Brasil",
+   "lang": "pt",
+   "url": "https://feeds.bbci.co.uk/portuguese/rss.xml",
+   "home": "https://www.bbc.com/portuguese",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "dw-br",
+   "name": "DW Brasil",
+   "lang": "pt",
+   "url": "https://rss.dw.com/rdf/rss-br-all",
+   "home": "https://www.dw.com/pt-br",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "nhk",
+   "name": "NHK",
+   "lang": "ja",
+   "url": "https://www3.nhk.or.jp/rss/news/cat0.xml",
+   "home": "https://www3.nhk.or.jp/news/",
+   "country": "JP",
+   "section": "world"
+  },
+  {
+   "id": "bbc-japanese",
+   "name": "BBC News Japan",
+   "lang": "ja",
+   "url": "https://feeds.bbci.co.uk/japanese/rss.xml",
+   "home": "https://www.bbc.com/japanese",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "bbc-zhongwen",
+   "name": "BBC 中文",
+   "lang": "zh",
+   "url": "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml",
+   "home": "https://www.bbc.com/zhongwen/simp",
+   "country": "GB",
+   "section": "world"
+  },
+  {
+   "id": "dw-zh",
+   "name": "DW 中文",
+   "lang": "zh",
+   "url": "https://rss.dw.com/rdf/rss-chi-all",
+   "home": "https://www.dw.com/zh",
+   "country": "DE",
+   "section": "world"
+  },
+  {
+   "id": "rfi-cn",
+   "name": "RFI 华语",
+   "lang": "zh",
+   "url": "https://www.rfi.fr/cn/rss",
+   "home": "https://www.rfi.fr/cn/",
+   "country": "FR",
+   "section": "world"
+  },
+  {
+   "id": "cna-world",
+   "name": "中央社 國際",
+   "lang": "zh",
+   "url": "https://feeds.feedburner.com/rsscna/intworld",
+   "home": "https://www.cna.com.tw",
+   "country": "TW",
+   "section": "world"
+  },
+  {
+   "id": "almasry",
+   "name": "المصري اليوم",
+   "lang": "ar",
+   "url": "https://www.almasryalyoum.com/rss/rssfeed",
+   "home": "https://www.almasryalyoum.com",
+   "country": "EG",
+   "section": "local"
+  },
+  {
+   "id": "youm7",
+   "name": "اليوم السابع",
+   "lang": "ar",
+   "url": "https://www.youm7.com/rss/SectionRss?SectionID=65",
+   "home": "https://www.youm7.com",
+   "country": "EG",
+   "section": "local"
+  },
+  {
+   "id": "masrawy",
+   "name": "مصراوي",
+   "lang": "ar",
+   "url": "https://www.masrawy.com/rss/feed/25/news",
+   "home": "https://www.masrawy.com",
+   "country": "EG",
+   "section": "local"
+  },
+  {
+   "id": "cairo24",
+   "name": "القاهرة 24",
+   "lang": "ar",
+   "url": "https://www.cairo24.com/rss.aspx",
+   "home": "https://www.cairo24.com",
+   "country": "EG",
+   "section": "local"
+  },
+  {
+   "id": "ahram-gate",
+   "name": "بوابة الأهرام",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=site:gate.ahram.org.eg+when:1d&hl=ar&gl=EG&ceid=EG:ar",
+   "home": "https://gate.ahram.org.eg",
+   "country": "EG",
+   "section": "local",
+   "via": "google-news"
+  },
+  {
+   "id": "shorouk",
+   "name": "الشروق",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=site:shorouknews.com+when:1d&hl=ar&gl=EG&ceid=EG:ar",
+   "home": "https://www.shorouknews.com",
+   "country": "EG",
+   "section": "local",
+   "via": "google-news"
+  },
+  {
+   "id": "egypt-independent",
+   "name": "Egypt Independent",
+   "lang": "en",
+   "url": "https://www.egyptindependent.com/feed/",
+   "home": "https://www.egyptindependent.com",
+   "country": "EG",
+   "section": "local"
+  },
+  {
+   "id": "okaz",
+   "name": "عكاظ",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=site:okaz.com.sa+when:1d&hl=ar&gl=SA&ceid=SA:ar",
+   "home": "https://www.okaz.com.sa",
+   "country": "SA",
+   "section": "local",
+   "via": "google-news"
+  },
+  {
+   "id": "sabq",
+   "name": "سبق",
+   "lang": "ar",
+   "url": "https://news.google.com/rss/search?q=site:sabq.org+when:1d&hl=ar&gl=SA&ceid=SA:ar",
+   "home": "https://sabq.org",
+   "country": "SA",
+   "section": "local",
+   "via": "google-news"
+  },
+  {
+   "id": "the-national",
+   "name": "The National",
+   "lang": "en",
+   "url": "https://www.thenationalnews.com/arc/outboundfeeds/rss/?outputType=xml",
+   "home": "https://www.thenationalnews.com",
+   "country": "AE",
+   "section": "local"
+  },
+  {
+   "id": "hespress",
+   "name": "هسبريس",
+   "lang": "ar",
+   "url": "https://www.hespress.com/feed",
+   "home": "https://www.hespress.com",
+   "country": "MA",
+   "section": "local"
+  },
+  {
+   "id": "roya",
+   "name": "رؤيا",
+   "lang": "ar",
+   "url": "https://royanews.tv/rss",
+   "home": "https://royanews.tv",
+   "country": "JO",
+   "section": "local"
+  },
+  {
+   "id": "annahar",
+   "name": "النهار",
+   "lang": "ar",
+   "url": "https://www.annahar.com/rss",
+   "home": "https://www.annahar.com",
+   "country": "LB",
+   "section": "local"
+  },
+  {
+   "id": "haaretz-he",
+   "name": "הארץ",
+   "lang": "he",
+   "url": "https://news.google.com/rss/search?q=site:haaretz.co.il+when:2d&hl=he&gl=IL&ceid=IL:he",
+   "home": "https://www.haaretz.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "left",
+   "via": "google-news"
+  },
+  {
+   "id": "haaretz-en",
+   "name": "Haaretz",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=site:haaretz.com+when:2d&hl=en-US&gl=US&ceid=US:en",
+   "home": "https://www.haaretz.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "left",
+   "via": "google-news"
+  },
+  {
+   "id": "mekomit",
+   "name": "שיחה מקומית",
+   "lang": "he",
+   "url": "https://news.google.com/rss/search?q=site:mekomit.co.il+when:7d&hl=he&gl=IL&ceid=IL:he",
+   "home": "https://www.mekomit.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "left",
+   "via": "google-news"
+  },
+  {
+   "id": "972mag",
+   "name": "+972 Magazine",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=site:972mag.com+when:7d&hl=en-US&gl=US&ceid=US:en",
+   "home": "https://www.972mag.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "left",
+   "via": "google-news"
+  },
+  {
+   "id": "davar",
+   "name": "דבר",
+   "lang": "he",
+   "url": "https://news.google.com/rss/search?q=site:davar1.co.il+when:3d&hl=he&gl=IL&ceid=IL:he",
+   "home": "https://www.davar1.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center-left",
+   "via": "google-news"
+  },
+  {
+   "id": "ynet",
+   "name": "ynet",
+   "lang": "he",
+   "url": "https://www.ynet.co.il/Integration/StoryRss2.xml",
+   "home": "https://www.ynet.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center"
+  },
+  {
+   "id": "ynetnews",
+   "name": "Ynetnews",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=site:ynetnews.com+when:1d&hl=en-US&gl=US&ceid=US:en",
+   "home": "https://www.ynetnews.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center",
+   "via": "google-news"
+  },
+  {
+   "id": "n12",
+   "name": "N12 חדשות",
+   "lang": "he",
+   "url": "https://rcs.mako.co.il/rss/news-israel.xml",
+   "home": "https://www.mako.co.il/news",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center"
+  },
+  {
+   "id": "walla",
+   "name": "וואלה",
+   "lang": "he",
+   "url": "https://rss.walla.co.il/feed/1",
+   "home": "https://news.walla.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center"
+  },
+  {
+   "id": "kan11",
+   "name": "כאן 11",
+   "lang": "he",
+   "url": "https://news.google.com/rss/search?q=site:kan.org.il+when:2d&hl=he&gl=IL&ceid=IL:he",
+   "home": "https://www.kan.org.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center",
+   "via": "google-news"
+  },
+  {
+   "id": "toi",
+   "name": "The Times of Israel",
+   "lang": "en",
+   "url": "https://news.google.com/rss/search?q=site:timesofisrael.com+when:1d&hl=en-US&gl=US&ceid=US:en",
+   "home": "https://www.timesofisrael.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center",
+   "via": "google-news"
+  },
+  {
+   "id": "globes",
+   "name": "גלובס",
+   "lang": "he",
+   "url": "https://www.globes.co.il/webservice/rss/rssfeeder.asmx/FeederNode?iID=2",
+   "home": "https://www.globes.co.il",
+   "country": "IL",
+   "section": "local"
+  },
+  {
+   "id": "maariv",
+   "name": "מעריב",
+   "lang": "he",
+   "url": "https://www.maariv.co.il/Rss/RssChadashot",
+   "home": "https://www.maariv.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center-right"
+  },
+  {
+   "id": "jpost",
+   "name": "The Jerusalem Post",
+   "lang": "en",
+   "url": "https://www.jpost.com/rss/rssfeedsfrontpage.aspx",
+   "home": "https://www.jpost.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "center-right"
+  },
+  {
+   "id": "israelhayom-he",
+   "name": "ישראל היום",
+   "lang": "he",
+   "url": "https://www.israelhayom.co.il/rss.xml",
+   "home": "https://www.israelhayom.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right"
+  },
+  {
+   "id": "israelhayom-en",
+   "name": "Israel Hayom",
+   "lang": "en",
+   "url": "https://www.israelhayom.com/feed/",
+   "home": "https://www.israelhayom.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right"
+  },
+  {
+   "id": "makorrishon",
+   "name": "מקור ראשון",
+   "lang": "he",
+   "url": "https://news.google.com/rss/search?q=site:makorrishon.co.il+when:3d&hl=he&gl=IL&ceid=IL:he",
+   "home": "https://www.makorrishon.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right",
+   "via": "google-news"
+  },
+  {
+   "id": "c14",
+   "name": "ערוץ 14",
+   "lang": "he",
+   "url": "https://news.google.com/rss/search?q=site:c14.co.il+when:3d&hl=he&gl=IL&ceid=IL:he",
+   "home": "https://www.c14.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right",
+   "via": "google-news"
+  },
+  {
+   "id": "inn-he",
+   "name": "ערוץ 7",
+   "lang": "he",
+   "url": "https://www.inn.co.il/Rss.aspx",
+   "home": "https://www.inn.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right"
+  },
+  {
+   "id": "inn-en",
+   "name": "Israel National News",
+   "lang": "en",
+   "url": "https://www.israelnationalnews.com/Rss.aspx",
+   "home": "https://www.israelnationalnews.com",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right"
+  },
+  {
+   "id": "srugim",
+   "name": "סרוגים",
+   "lang": "he",
+   "url": "https://www.srugim.co.il/feed",
+   "home": "https://www.srugim.co.il",
+   "country": "IL",
+   "section": "local",
+   "leaning": "right"
+  },
+  {
+   "id": "npr-us",
+   "name": "NPR National",
+   "lang": "en",
+   "url": "https://feeds.npr.org/1003/rss.xml",
+   "home": "https://www.npr.org/sections/national/",
+   "country": "US",
+   "section": "local"
+  },
+  {
+   "id": "nyt-us",
+   "name": "The New York Times — U.S.",
+   "lang": "en",
+   "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+   "home": "https://www.nytimes.com/section/us",
+   "country": "US",
+   "section": "local"
+  },
+  {
+   "id": "bbc-uk",
+   "name": "BBC News UK",
+   "lang": "en",
+   "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
+   "home": "https://www.bbc.com/news/uk",
+   "country": "GB",
+   "section": "local"
+  },
+  {
+   "id": "guardian-uk",
+   "name": "The Guardian UK",
+   "lang": "en",
+   "url": "https://www.theguardian.com/uk-news/rss",
+   "home": "https://www.theguardian.com/uk-news",
+   "country": "GB",
+   "section": "local"
+  },
+  {
+   "id": "franceinfo",
+   "name": "franceinfo",
+   "lang": "fr",
+   "url": "https://www.francetvinfo.fr/titres.rss",
+   "home": "https://www.francetvinfo.fr",
+   "country": "FR",
+   "section": "local"
+  },
+  {
+   "id": "lemonde-societe",
+   "name": "Le Monde — Société",
+   "lang": "fr",
+   "url": "https://www.lemonde.fr/societe/rss_full.xml",
+   "home": "https://www.lemonde.fr/societe/",
+   "country": "FR",
+   "section": "local"
+  },
+  {
+   "id": "tagesschau-inland",
+   "name": "tagesschau Inland",
+   "lang": "de",
+   "url": "https://www.tagesschau.de/inland/index~rss2.xml",
+   "home": "https://www.tagesschau.de/inland",
+   "country": "DE",
+   "section": "local"
+  },
+  {
+   "id": "elpais",
+   "name": "EL PAÍS",
+   "lang": "es",
+   "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
+   "home": "https://elpais.com",
+   "country": "ES",
+   "section": "local"
+  },
+  {
+   "id": "20minutos",
+   "name": "20minutos",
+   "lang": "es",
+   "url": "https://www.20minutos.es/rss/",
+   "home": "https://www.20minutos.es",
+   "country": "ES",
+   "section": "local"
+  },
+  {
+   "id": "g1",
+   "name": "g1",
+   "lang": "pt",
+   "url": "https://g1.globo.com/rss/g1/",
+   "home": "https://g1.globo.com",
+   "country": "BR",
+   "section": "local"
+  },
+  {
+   "id": "folha",
+   "name": "Folha de S.Paulo",
+   "lang": "pt",
+   "url": "https://feeds.folha.uol.com.br/emcimadahora/rss091.xml",
+   "home": "https://www.folha.uol.com.br",
+   "country": "BR",
+   "section": "local"
+  },
+  {
+   "id": "publico",
+   "name": "Público",
+   "lang": "pt",
+   "url": "https://feeds.feedburner.com/PublicoRSS",
+   "home": "https://www.publico.pt",
+   "country": "PT",
+   "section": "local"
+  },
+  {
+   "id": "rtp",
+   "name": "RTP Notícias",
+   "lang": "pt",
+   "url": "https://www.rtp.pt/noticias/rss",
+   "home": "https://www.rtp.pt/noticias",
+   "country": "PT",
+   "section": "local"
+  },
+  {
+   "id": "asahi",
+   "name": "朝日新聞",
+   "lang": "ja",
+   "url": "https://www.asahi.com/rss/asahi/newsheadlines.rdf",
+   "home": "https://www.asahi.com",
+   "country": "JP",
+   "section": "local"
+  },
+  {
+   "id": "ltn",
+   "name": "自由時報",
+   "lang": "zh",
+   "url": "https://news.ltn.com.tw/rss/all.xml",
+   "home": "https://news.ltn.com.tw",
+   "country": "TW",
+   "section": "local"
+  },
+  {
+   "id": "rthk",
+   "name": "香港電台",
+   "lang": "zh",
+   "url": "https://rthk.hk/rthk/news/rss/c_expressnews_clocal.xml",
+   "home": "https://news.rthk.hk",
+   "country": "HK",
+   "section": "local"
+  }
+ ],
+ "searchTrends": [
+  {
+   "country": "EG",
+   "hl": "ar",
+   "scripts": [
+    "Arabic",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=EG&hl=ar"
+  },
+  {
+   "country": "SA",
+   "hl": "ar",
+   "scripts": [
+    "Arabic",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=SA&hl=ar"
+  },
+  {
+   "country": "AE",
+   "hl": "ar",
+   "scripts": [
+    "Arabic",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=AE&hl=ar"
+  },
+  {
+   "country": "MA",
+   "hl": "ar",
+   "scripts": [
+    "Arabic",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=MA&hl=ar"
+  },
+  {
+   "country": "JO",
+   "hl": "ar",
+   "scripts": [
+    "Arabic",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=JO&hl=ar"
+  },
+  {
+   "country": "IL",
+   "hl": "he",
+   "scripts": [
+    "Hebrew",
+    "Latin",
+    "Arabic"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=IL&hl=he"
+  },
+  {
+   "country": "US",
+   "hl": "en-US",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=US&hl=en-US"
+  },
+  {
+   "country": "GB",
+   "hl": "en-GB",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=GB&hl=en-GB"
+  },
+  {
+   "country": "FR",
+   "hl": "fr",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=FR&hl=fr"
+  },
+  {
+   "country": "DE",
+   "hl": "de",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=DE&hl=de"
+  },
+  {
+   "country": "ES",
+   "hl": "es",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=ES&hl=es"
+  },
+  {
+   "country": "MX",
+   "hl": "es-419",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=MX&hl=es-419"
+  },
+  {
+   "country": "BR",
+   "hl": "pt-BR",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=BR&hl=pt-BR"
+  },
+  {
+   "country": "PT",
+   "hl": "pt-PT",
+   "scripts": [
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=PT&hl=pt-PT"
+  },
+  {
+   "country": "JP",
+   "hl": "ja",
+   "scripts": [
+    "Han",
+    "Hiragana",
+    "Katakana",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=JP&hl=ja"
+  },
+  {
+   "country": "TW",
+   "hl": "zh-TW",
+   "scripts": [
+    "Han",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=TW&hl=zh-TW"
+  },
+  {
+   "country": "HK",
+   "hl": "zh-HK",
+   "scripts": [
+    "Han",
+    "Latin"
+   ],
+   "url": "https://trends.google.com/trending/rss?geo=HK&hl=zh-HK"
+  }
+ ]
 }
