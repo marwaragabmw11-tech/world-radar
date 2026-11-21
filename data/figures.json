@@ -1,0 +1,505 @@
+{
+ "_note": "Public figures whose public statements World Radar follows. 'channels' are official public channels read directly (Telegram public preview, YouTube's official RSS). X/Twitter, Facebook and Instagram cannot be read for free, so 'news' collects headlines that quote the person (their name followed by a colon) from Google News RSS. Edit freely: add a person, a Telegram handle or a YouTube channel id.",
+ "figures": [
+  {
+   "id": "netanyahu",
+   "name": {
+    "ar": "بنيامين نتنياهو",
+    "en": "Benjamin Netanyahu",
+    "he": "בנימין נתניהו"
+   },
+   "role": {
+    "ar": "رئيس الوزراء (حكومة انتقالية)",
+    "en": "Prime Minister (caretaker)",
+    "he": "ראש הממשלה (ממשלת מעבר)"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "الليكود",
+    "en": "Likud",
+    "he": "הליכוד"
+   },
+   "channels": [
+    {
+     "type": "telegram",
+     "handle": "bnetanyahu"
+    },
+    {
+     "type": "youtube",
+     "channelId": "UCzuhZvXZVi7KQAPbOQfBIgw",
+     "label": "Benjamin Netanyahu"
+    },
+    {
+     "type": "youtube",
+     "channelId": "UC4XJnRPZjXhgvVMhXKNSJvQ",
+     "label": "IsraeliPM"
+    }
+   ],
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%A0%D7%AA%D7%A0%D7%99%D7%94%D7%95+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "נתניהו",
+     "ראש הממשלה"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "eisenkot",
+   "name": {
+    "ar": "غادي آيزنكوت",
+    "en": "Gadi Eisenkot",
+    "he": "גדי איזנקוט"
+   },
+   "role": {
+    "ar": "رئيس حزب «ياشار»، مكلّف بتشكيل الحكومة",
+    "en": "Yashar leader, tasked with forming the government",
+    "he": "יו\"ר ישר!, מועמד להרכבת הממשלה"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "ياشار",
+    "en": "Yashar",
+    "he": "ישר!"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%90%D7%99%D7%96%D7%A0%D7%A7%D7%95%D7%98+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "איזנקוט"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "bennett",
+   "name": {
+    "ar": "نفتالي بينيت",
+    "en": "Naftali Bennett",
+    "he": "נפתלי בנט"
+   },
+   "role": {
+    "ar": "رئيس تحالف «بياحد»",
+    "en": "Beyachad leader",
+    "he": "יו\"ר ביחד"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "بياحد",
+    "en": "Beyachad",
+    "he": "ביחד"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%91%D7%A0%D7%98+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "בנט"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "lapid",
+   "name": {
+    "ar": "يائير لابيد",
+    "en": "Yair Lapid",
+    "he": "יאיר לפיד"
+   },
+   "role": {
+    "ar": "رئيس «يش عتيد»، الثاني في «بياحد»",
+    "en": "Yesh Atid leader, No. 2 in Beyachad",
+    "he": "יו\"ר יש עתיד, מס' 2 בביחד"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "بياحد",
+    "en": "Beyachad",
+    "he": "ביחד"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%9C%D7%A4%D7%99%D7%93+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "לפיד"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "jabareen",
+   "name": {
+    "ar": "يوسف جبارين",
+    "en": "Yousef Jabareen",
+    "he": "יוסף ג'בארין"
+   },
+   "role": {
+    "ar": "رئيس القائمة المشتركة",
+    "en": "Joint List leader",
+    "he": "יו\"ר הרשימה המשותפת"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "القائمة المشتركة",
+    "en": "Joint List",
+    "he": "הרשימה המשותפת"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%92%27%D7%91%D7%90%D7%A8%D7%99%D7%9F+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "ג'בארין",
+     "ג׳בארין"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "golan",
+   "name": {
+    "ar": "يائير غولان",
+    "en": "Yair Golan",
+    "he": "יאיר גולן"
+   },
+   "role": {
+    "ar": "رئيس حزب الديمقراطيين",
+    "en": "The Democrats leader",
+    "he": "יו\"ר הדמוקרטים"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "الديمقراطيون",
+    "en": "The Democrats",
+    "he": "הדמוקרטים"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%99%D7%90%D7%99%D7%A8%20%D7%92%D7%95%D7%9C%D7%9F+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "יאיר גולן",
+     "גולן"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "abbas",
+   "name": {
+    "ar": "منصور عباس",
+    "en": "Mansour Abbas",
+    "he": "מנסור עבאס"
+   },
+   "role": {
+    "ar": "رئيس القائمة العربية الموحدة (راعم)",
+    "en": "Ra'am leader",
+    "he": "יו\"ר רע\"ם"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "راعم",
+    "en": "Ra'am",
+    "he": "רע\"ם"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%9E%D7%A0%D7%A1%D7%95%D7%A8%20%D7%A2%D7%91%D7%90%D7%A1+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "מנסור עבאס",
+     "עבאס"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "liberman",
+   "name": {
+    "ar": "أفيغدور ليبرمان",
+    "en": "Avigdor Liberman",
+    "he": "אביגדור ליברמן"
+   },
+   "role": {
+    "ar": "رئيس «يسرائيل بيتينو»",
+    "en": "Yisrael Beytenu leader",
+    "he": "יו\"ר ישראל ביתנו"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "يسرائيل بيتينو",
+    "en": "Yisrael Beytenu",
+    "he": "ישראל ביתנו"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%9C%D7%99%D7%91%D7%A8%D7%9E%D7%9F+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "ליברמן"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "goldknopf",
+   "name": {
+    "ar": "يتسحاق غولدكنوبف",
+    "en": "Yitzhak Goldknopf",
+    "he": "יצחק גולדקנופף"
+   },
+   "role": {
+    "ar": "رئيس «يهدوت هتوراه»",
+    "en": "United Torah Judaism leader",
+    "he": "יו\"ר יהדות התורה"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "يهدوت هتوراه",
+    "en": "United Torah Judaism",
+    "he": "יהדות התורה"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%92%D7%95%D7%9C%D7%93%D7%A7%D7%A0%D7%95%D7%A4%D7%A3+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "גולדקנופף"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "bengvir",
+   "name": {
+    "ar": "إيتمار بن غفير",
+    "en": "Itamar Ben Gvir",
+    "he": "איתמר בן גביר"
+   },
+   "role": {
+    "ar": "وزير الأمن القومي (حكومة انتقالية)",
+    "en": "National Security Minister (caretaker)",
+    "he": "השר לביטחון לאומי (ממשלת מעבר)"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "عوتسما يهوديت",
+    "en": "Otzma Yehudit",
+    "he": "עוצמה יהודית"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%91%D7%9F%20%D7%92%D7%91%D7%99%D7%A8+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "בן גביר"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "deri",
+   "name": {
+    "ar": "أرييه درعي",
+    "en": "Aryeh Deri",
+    "he": "אריה דרעי"
+   },
+   "role": {
+    "ar": "رئيس حزب شاس",
+    "en": "Shas leader",
+    "he": "יו\"ר ש\"ס"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "شاس",
+    "en": "Shas",
+    "he": "ש\"ס"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%93%D7%A8%D7%A2%D7%99+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "דרעי"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "smotrich",
+   "name": {
+    "ar": "بتسلئيل سموتريتش",
+    "en": "Bezalel Smotrich",
+    "he": "בצלאל סמוטריץ'"
+   },
+   "role": {
+    "ar": "وزير المالية (حكومة انتقالية)",
+    "en": "Finance Minister (caretaker)",
+    "he": "שר האוצר (ממשלת מעבר)"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "الصهيونية الدينية",
+    "en": "Religious Zionism",
+    "he": "הציונות הדתית"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%A1%D7%9E%D7%95%D7%98%D7%A8%D7%99%D7%A5%27+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "סמוטריץ'",
+     "סמוטריץ׳",
+     "סמוטריץ"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "katz",
+   "name": {
+    "ar": "يسرائيل كاتس",
+    "en": "Israel Katz",
+    "he": "ישראל כ\"ץ"
+   },
+   "role": {
+    "ar": "وزير الدفاع (حكومة انتقالية)",
+    "en": "Defence Minister (caretaker)",
+    "he": "שר הביטחון (ממשלת מעבר)"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "الليكود",
+    "en": "Likud",
+    "he": "הליכוד"
+   },
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%99%D7%A9%D7%A8%D7%90%D7%9C%20%D7%9B%22%D7%A5+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "כ\"ץ",
+     "כ״ץ",
+     "שר הביטחון"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "saar",
+   "name": {
+    "ar": "جدعون ساعر",
+    "en": "Gideon Sa'ar",
+    "he": "גדעון סער"
+   },
+   "role": {
+    "ar": "وزير الخارجية (حكومة انتقالية)",
+    "en": "Foreign Minister (caretaker)",
+    "he": "שר החוץ (ממשלת מעבר)"
+   },
+   "country": "IL",
+   "channels": [
+    {
+     "type": "telegram",
+     "handle": "gideonsaar"
+    }
+   ],
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%92%D7%93%D7%A2%D7%95%D7%9F%20%D7%A1%D7%A2%D7%A8+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "סער",
+     "שר החוץ"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "levin",
+   "name": {
+    "ar": "ياريف ليفين",
+    "en": "Yariv Levin",
+    "he": "יריב לוין"
+   },
+   "role": {
+    "ar": "وزير العدل (حكومة انتقالية)",
+    "en": "Justice Minister (caretaker)",
+    "he": "שר המשפטים (ממשלת מעבר)"
+   },
+   "country": "IL",
+   "party": {
+    "ar": "الليكود",
+    "en": "Likud",
+    "he": "הליכוד"
+   },
+   "channels": [
+    {
+     "type": "telegram",
+     "handle": "yarivlevin"
+    }
+   ],
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%99%D7%A8%D7%99%D7%91%20%D7%9C%D7%95%D7%99%D7%9F+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "לוין",
+     "שר המשפטים"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "herzog",
+   "name": {
+    "ar": "يتسحاق هرتسوغ",
+    "en": "Isaac Herzog",
+    "he": "יצחק הרצוג"
+   },
+   "role": {
+    "ar": "رئيس الدولة",
+    "en": "President",
+    "he": "נשיא המדינה"
+   },
+   "country": "IL",
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%94%D7%A8%D7%A6%D7%95%D7%92+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "הרצוג",
+     "הנשיא"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "idf",
+   "name": {
+    "ar": "الجيش الإسرائيلي — المتحدث الرسمي",
+    "en": "IDF Spokesperson",
+    "he": "דובר צה\"ל"
+   },
+   "role": {
+    "ar": "القناة الرسمية",
+    "en": "Official channel",
+    "he": "הערוץ הרשמי"
+   },
+   "country": "IL",
+   "channels": [
+    {
+     "type": "telegram",
+     "handle": "idf_telegram"
+    },
+    {
+     "type": "telegram",
+     "handle": "idfofficial"
+    }
+   ],
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D7%93%D7%95%D7%91%D7%A8%20%D7%A6%D7%94%22%D7%9C+when:2d&hl=he&gl=IL&ceid=IL:he",
+    "names": [
+     "דובר צה\"ל",
+     "דובר צה״ל"
+    ],
+    "lang": "he"
+   }
+  },
+  {
+   "id": "adraee",
+   "name": {
+    "ar": "أفيخاي أدرعي",
+    "en": "Avichay Adraee",
+    "he": "אביחי אדרעי"
+   },
+   "role": {
+    "ar": "المتحدث باسم الجيش الإسرائيلي بالعربية",
+    "en": "IDF Arabic-language spokesperson",
+    "he": "דובר צה\"ל לתקשורת הערבית"
+   },
+   "country": "IL",
+   "news": {
+    "url": "https://news.google.com/rss/search?q=%D8%A3%D8%AF%D8%B1%D8%B9%D9%8A+when:2d&hl=ar&gl=EG&ceid=EG:ar",
+    "names": [
+     "أدرعي",
+     "افيخاي أدرعي",
+     "أفيخاي أدرعي"
+    ],
+    "lang": "ar"
+   }
+  }
+ ]
+}
